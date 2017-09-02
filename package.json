@@ -1,0 +1,33 @@
+{
+  "name": "card-game",
+  "version": "0.0.1",
+  "description": "A JS library for running a card game",
+  "main": "dist/CardGame.js",
+  "module": "src/CardGame.js",
+  "scripts": {
+    "build": "webpack --progress --colors",
+    "watch": "npm run build -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lellimecnar/js-card-game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lellimecnar/js-card-game/issues"
+  },
+  "homepage": "https://github.com/lellimecnar/js-card-game#readme",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-private-underscore": "^0.1.3",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "enum": "^2.4.0",
+    "exports-loader": "^0.6.4",
+    "webpack": "^3.5.5"
+  }
+}

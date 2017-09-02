@@ -1,0 +1,16 @@
+{
+	"compact": true,
+	"presets": [
+		["env", {
+			"targets": {
+				"node": "current"
+			},
+			"include": []
+		}],
+		"stage-0"
+	],
+	"plugins": [
+		"transform-private-underscore",
+		"transform-flow-strip-types"
+	]
+}
