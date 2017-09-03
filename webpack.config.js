@@ -8,7 +8,7 @@ const DEST_PATH = path.join(BASE_PATH, 'dist');
 
 const config = {
 	context: BASE_PATH,
-	entry: './src/CardGame.js',
+	entry: './src/index.js',
 	output: {
 		filename: 'CardGame.js',
 		path: DEST_PATH,
@@ -29,7 +29,7 @@ const config = {
 				}
 			},
 			{
-				test: path.join(SRC_PATH, 'CardGame.js'),
+				test: path.join(SRC_PATH, 'index.js'),
 				use: {
 					loader: 'exports-loader?CardGame',
 				}

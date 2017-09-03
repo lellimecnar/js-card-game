@@ -28,6 +28,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "enum": "^2.4.0",
     "exports-loader": "^0.6.4",
+    "tiny-emitter": "^2.0.2",
     "webpack": "^3.5.5"
   }
 }

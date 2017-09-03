@@ -1,6 +1,7 @@
 import Deck from './Deck';
 
 export default class Player {
+
 	get name() {
 		return this._name;
 	}
@@ -13,9 +14,10 @@ export default class Player {
 		return this._score;
 	}
 
-	constructor(name: String) {
+	constructor(name: String, config) {
 		this._name = name;
-		this._deck = new Deck();
+		this._config = config;
+		this._deck = new Deck(config, this);
 		this.resetScore();
 	}
 
@@ -24,6 +26,6 @@ export default class Player {
 	}
 
 	resetScore() {
-		this._score = 0;
+		this._score = this._config.initialScore;
 	}
 }

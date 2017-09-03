@@ -70,18 +70,26 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(6);
-
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:true});var _CardGame=__webpack_require__(1);var _CardGame2=_interopRequireDefault(_CardGame);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}exports.default=_CardGame2.default;/*** EXPORTS FROM exports-loader ***/module.exports=_CardGame2.default;
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(12);var _Card2=_interopRequireDefault(_Card);var _CardSet=__webpack_require__(13);var _CardSet2=_interopRequireDefault(_CardSet);var _Deck=__webpack_require__(14);var _Deck2=_interopRequireDefault(_Deck);var _Player=__webpack_require__(15);var _Player2=_interopRequireDefault(_Player);var _Round=__webpack_require__(16);var _Round2=_interopRequireDefault(_Round);var _Preset=__webpack_require__(4);var _Preset2=_interopRequireDefault(_Preset);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfCardGame=new WeakMap();const _rounds=new WeakMap();function _getRounds(){return _rounds.get(this);}class CardGame{static get Preset(){return _Preset2.default;}static get Card(){return _Card2.default;}static get CardSet(){return _CardSet2.default;}static get Deck(){return _Deck2.default;}static get Player(){return _Player2.default;}static get Round(){return _Round2.default;}get currentRound(){return _getRounds.call(this).slice(-1)[0];}constructor(config){privateAttributesOfCardGame.set(this,{});if(!(config instanceof _Preset2.default)){config=new _Preset2.default(config);}privateAttributesOfCardGame.get(this)._config=config;_rounds.set(this,[new _Round2.default(config)]);}addPlayer(player){if(typeof player==='string'){player=new _Player2.default(player,privateAttributesOfCardGame.get(this)._config);}this.currentRound.addPlayer(player);return this;}addPlayers(players){players.forEach(this.addPlayer.bind(this));return this;}startRound(){this.currentRound.start();return this;}finishRound(){this.currentRound.finish();return this;}newRound(players){players=this.currentRound.mapPlayers(player=>player).concat(players||[]);_getRounds.call(this).push(new _Round2.default(privateAttributesOfCardGame.get(this)._config).addPlayers(players));return this;}}exports.default=CardGame;
+
+/***/ }),
+/* 2 */,
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -106,32 +114,18 @@ var isNumber = function (value) {
 exports.isNumber = isNumber;
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(5);var _Card2=_interopRequireDefault(_Card);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const _cards=new WeakMap();function _getCards(){return _cards.get(this);}function cleanCards(cards){return cards.filter(card=>card instanceof _Card2.default);}function retTrue(){return true;}class CardSet{get topCard(){const cards=_getCards.call(this);return cards[cards.length];}get length(){return _getCards.call(this).length;}constructor(cards=[]){if(!Array.isArray(cards)){cards=[cards];}_cards.set(this,cleanCards(cards));}add(newCards){if(newCards instanceof _Card2.default){newCards=[newCards];}const cards=_getCards.call(this);cleanCards(newCards).forEach(card=>{cards.push(card);_Card._setParent.call(card,this);});return this;}remove(card){const cards=_getCards.call(this);cards.splice(cards.indexOf(card),1);return this;}drop(newCards){if(!Array.isArray(newCards)){newCards=[newCards];}cleanCards(newCards).forEach(card=>{if(!this.canDrop||this.canDrop(card)){this.add(card);}});return this;}shuffle(){let cards=_getCards.call(this);let tmp,current;let top=cards.length;if(top)while(--top){current=Math.floor(Math.random()*(top+1));tmp=cards[current];cards[current]=cards[top];cards[top]=tmp;}return this;}draw(count){return _getCards.call(this).slice(-count);}each(fn){_getCards.call(this).forEach((card,i)=>{fn(card,i,_Card._getSuit.call(card),_Card._getNumber.call(card));});}map(fn){return _getCards.call(this).map((card,i)=>{return fn(card,i,_Card._getSuit.call(card),_Card._getNumber.call(card));});}}exports.default=CardSet;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(5);var _Card2=_interopRequireDefault(_Card);var _CardSet=__webpack_require__(2);var _CardSet2=_interopRequireDefault(_CardSet);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}class Deck extends _CardSet2.default{constructor(){const cards=[];_Card2.default.SUITS.each(suit=>{_Card2.default.NUMBERS.each(number=>{cards.push(new _Card2.default(suit,number));});});super(cards);}}exports.default=Deck;
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(5);var _Card2=_interopRequireDefault(_Card);var _CardSet=__webpack_require__(2);var _CardSet2=_interopRequireDefault(_CardSet);var _Deck=__webpack_require__(3);var _Deck2=_interopRequireDefault(_Deck);var _Player=__webpack_require__(14);var _Player2=_interopRequireDefault(_Player);var _Round=__webpack_require__(15);var _Round2=_interopRequireDefault(_Round);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}class CardGame{static get Card(){return _Card2.default;}static get CardSet(){return _CardSet2.default;}static get Deck(){return _Deck2.default;}static get Player(){return _Player2.default;}static get Round(){return _Round2.default;}}exports.default=CardGame;/*** EXPORTS FROM exports-loader ***/module.exports=CardGame;
+Object.defineProperty(exports,"__esModule",{value:true});var _enum=__webpack_require__(5);var _enum2=_interopRequireDefault(_enum);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfPreset=new WeakMap();const NUMBERS=['ZERO','ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN','TWELVE','THIRTEEN','FOURTEEN','FIFTEEN','SIXTEEN','SEVENTEEN','EIGHTEEN','NINETEEN','TWENTY'];const STANDARD_SUITS={RED:['HEARTS','DIAMONDS'],BLACK:['CLUBS','SPADES']};const STANDARD_NUMBERS=['ACE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','JACK','QUEEN','KING'];function constantCase(str){return str.trim().replace(/\s+/g,'_').toUpperCase();}function makeRange(max){return[...Array(max)].map((val,n)=>NUMBERS[++n]);}class SuitEnum extends _enum2.default{constructor(suits){let groups={};let suitMap={};if(!Array.isArray(suits)){let flatSuits=[];let groupNames=Object.keys(suits);groupNames.forEach(name=>{flatSuits=[...flatSuits,...suits[name]];suits[name].forEach(suit=>{groups[suit]=groupNames[name];});});suits=flatSuits;}suits.forEach((suit,i)=>{suitMap[constantCase(suit)]={index:i,group:groups[suit]};});super(suitMap);}each(fn){this.enums.forEach(suit=>fn(suit.key));}}class NumberEnum extends _enum2.default{constructor(numbers){if(typeof numbers==='number'){numbers=makeRange(numbers);}let values={};let numberMap={};if(!Array.isArray(numbers)){let values=numbers;numbers=Object.keys(numbers);}numbers.forEach((number,i)=>{numberMap[constantCase(number)]={index:i,value:values[number]};});super(numberMap);}each(fn){this.enums.forEach(number=>fn(number.key));}}class Preset{get suits(){return privateAttributesOfPreset.get(this)._suits;}get numbers(){return privateAttributesOfPreset.get(this)._numbers;}get initialScore(){return privateAttributesOfPreset.get(this)._initialScore;}constructor({suits=STANDARD_SUITS,numbers=STANDARD_NUMBERS,initialScore=0}={}){privateAttributesOfPreset.set(this,{});privateAttributesOfPreset.get(this)._suits=new SuitEnum(suits);privateAttributesOfPreset.get(this)._numbers=new NumberEnum(numbers);privateAttributesOfPreset.get(this)._initialScore=initialScore;}}exports.default=Preset;
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-Object.defineProperty(exports,"__esModule",{value:true});exports._getSuit=_getSuit;exports._getNumber=_getNumber;exports._setParent=_setParent;var _enum=__webpack_require__(0);var _enum2=_interopRequireDefault(_enum);var _CardSuitSet=__webpack_require__(12);var _CardSuitSet2=_interopRequireDefault(_CardSuitSet);var _CardNumberSet=__webpack_require__(13);var _CardNumberSet2=_interopRequireDefault(_CardNumberSet);var _CardSet=__webpack_require__(2);var _CardSet2=_interopRequireDefault(_CardSet);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const _suit=new WeakMap();const _number=new WeakMap();const _parent=new WeakMap();const _group={};const config={};const NUMBERS='|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE|TEN|ELEVEN|TWELVE|THIRTEEN|FOURTEEN|FIFTEEN|SIXTEEN|SEVENTEEN|EIGHTEEN|NINETEEN|TWENTY'.split('|');function makeRange(max){return[...Array(max)].map((val,n)=>NUMBERS[++n]);}function _getSuit(){return _suit.get(this);}function _getNumber(){return _number.get(this);}function _getParent(){return _parent.get(this);}function _setParent(newParent){if(newParent instanceof _CardSet2.default){throw new Error('parent of Card can only be an instance of CardSet');}if(this.parent){this.parent.remove(this);}_parent.set(this,newParent);}function _getNumberIndex(){return Card.NUMBERS.enums.indexOf(_getNumber.call(this));}function _getSuitName(){return _getSuit.call(this).key;}function _getNumberName(){return _getNumber.call(this).key;}function _getSuitGroup(){return _group[_getSuitName.call(this)];}const PRESETS=new _enum2.default(['STANDARD','ROOK'],{freez:true});const NUMBER_PRESETS={[PRESETS.STANDARD]:['ACE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','JACK','QUEEN','KING'],[PRESETS.ROOK]:makeRange(14)};const SUIT_PRESETS={[PRESETS.STANDARD]:{RED:['HEARTS','DIAMONDS'],BLACK:['CLUBS','SPADES']},[PRESETS.ROOK]:['BLACK','RED','YELLOW','GREEN']};class Card{static get PRESETS(){return PRESETS;}static get SUITS(){return config.suits;}static get hasSuitGroups(){return!!Card.SUIT_GROUPS;}static get SUIT_GROUPS(){return config.groups;}static get NUMBERS(){return config.numbers;}static config({preset,suits,numbers,maxNumber}){preset=preset||arguments[0];suits=SUIT_PRESETS[preset]||suits;numbers=NUMBER_PRESETS[preset]||numbers;if(suits){if(!Array.isArray(suits)){let flatSuits=[];let groupNames=Object.keys(suits);config.groups=new _enum2.default(groupNames,{freez:true});groupNames.forEach(name=>{flatSuits=[...flatSuits,...suits[name]];suits[name].forEach(suit=>{_group[suit]=Card.SUIT_GROUPS[name];});});suits=flatSuits;}else{delete config.groups;}config.suits=new _CardSuitSet2.default(suits);}if(!preset&&!numbers&&typeof maxNumber==='number'){numbers=makeRange(maxNumber);}if(numbers){config.numbers=new _CardNumberSet2.default(numbers);}}get parent(){return _getParent.call(this);}constructor(suit,number){if(!Card.SUITS.get(suit)){throw new Error(`"${suit}" is not a valid suit`);}if(!Card.NUMBERS.get(number)){throw new Error(`"${number}" is not a valid number`);}_suit.set(this,Card.SUITS.get(suit));_number.set(this,Card.NUMBERS.get(number));}isSameSuit(card){return _getSuitName.call(this)===_getSuitName.call(card);}isSameSuitGroup(card){return Card.hasSuitGroups?_getSuitGroup.call(this)===_getSuitGroup.call(card):this.isSameSuit(card);}isSameNumber(card){return _getNumberIndex.call(this)===_getNumberIndex.call(card);}isGreaterThan(card){return _getNumberIndex.call(this)>_getNumberIndex.call(card);}isLessThan(card){return _getNumberIndex.call(this)<_getNumberIndex.call(card);}isPlusOne(card){return _getNumberIndex.call(this)-1===_getNumberIndex.call(card);}isMinusOne(card){return _getNumberIndex.call(this)+1===_getNumberIndex.call(card);}toString(){return`Card {${_getSuitName.call(this)}, ${_getNumberName.call(this)}}`;}}exports.default=Card;Card.config(PRESETS.STANDARD);
+module.exports = __webpack_require__(6);
+
 
 /***/ }),
 /* 6 */
@@ -148,7 +142,7 @@ var os = _interopRequire(__webpack_require__(8));
 
 var EnumItem = _interopRequire(__webpack_require__(9));
 
-var _isType = __webpack_require__(1);
+var _isType = __webpack_require__(3);
 
 var isString = _isType.isString;
 var isNumber = _isType.isNumber;
@@ -587,7 +581,7 @@ exports.EOL = '\n';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-var _isType = __webpack_require__(1);
+var _isType = __webpack_require__(3);
 
 var isObject = _isType.isObject;
 var isString = _isType.isString;
@@ -737,28 +731,35 @@ function isSlowBuffer (obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _enum=__webpack_require__(0);var _enum2=_interopRequireDefault(_enum);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}class CardSuitSet extends _enum2.default{constructor(keys){super(keys,{name:'CardSuitSet',freez:true});}each(fn){this.enums.forEach(suit=>fn(suit.key));}}exports.default=CardSuitSet;
+Object.defineProperty(exports,"__esModule",{value:true});exports._getSuit=_getSuit;exports._getNumber=_getNumber;exports._setParent=_setParent;var _CardSet=__webpack_require__(13);var _CardSet2=_interopRequireDefault(_CardSet);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const _suit=new WeakMap();const _number=new WeakMap();const _parent=new WeakMap();const _deck=new WeakMap();function _getSuit(){return _suit.get(this);}function _getNumber(){return _number.get(this);}function _setParent(newParent){if(!newParent||!(newParent instanceof _CardSet2.default)&&!(newParent.constructor instanceof _CardSet2.default)){throw new Error('parent of Card can only be an instance of CardSet');}if(this.parent){this.parent.remove(this);}_parent.set(this,newParent);}function _getNumberIndex(){return this.deck.NUMBERS.enums.indexOf(_getNumber.call(this));}function _getSuitName(){return _getSuit.call(this).key;}function _getNumberName(){return _getNumber.call(this).key;}function _getSuitGroup(){return _getSuit.call(this).value;}class Card{static compare(a,b,fn){return fn({sameSuit:_getSuitName.call(a)===_getSuitName.call(b),sameSuitGroup:_getSuitGroup.call(a)===_getSuitGroup.call(b),sameNumber:_getNumberName.call(a)===_getNumberName.call(a),numberDiff:_getNumberIndex.call(a)-_getNumberIndex.call(b)});}get parent(){return _parent.get(this);}get deck(){return _deck.get(this);}constructor(suit,number,deck){_suit.set(this,deck.SUITS.get(suit));_number.set(this,deck.NUMBERS.get(number));_deck.set(this,deck);}isSameSuit(card){return Card.compare(this,card,({sameSuit})=>sameSuit);}isSameSuitGroup(card){return Card.compare(this,card,({sameSuitGroup})=>sameSuitGroup);}isDiff(card,diff){if(typeof diff==='number'){diff=numberDiff=>numberDiff===diff;}return Card.compare(this,card,({numberDiff})=>diff(numberDiff));}isSameNumber(card){return this.isDiff(card,0);}isGreaterThan(card){return this.isDiff(card,diff=>diff>0);}isLessThan(card){return this.isDiff(card,diff=>diff<0);}isPlusOne(card){return this.isDiff(card,1);}isMinusOne(card){return this.isDiff(card,-1);}toString(){return`Card {${_getSuitName.call(this)}, ${_getNumberName.call(this)}}`;}}exports.default=Card;
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _enum=__webpack_require__(0);var _enum2=_interopRequireDefault(_enum);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}class CardNumberSet extends _enum2.default{constructor(map){super(map,{name:'CardNumberSet',freez:true});}each(fn){this.enums.forEach(number=>fn(number.key));}}exports.default=CardNumberSet;
+Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(12);var _Card2=_interopRequireDefault(_Card);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfCardSet=new WeakMap();class CardSet{get topCard(){const cards=_getCards.call(this);return cards[cards.length];}get length(){return _getCards.call(this).length;}constructor(cards,config){privateAttributesOfCardSet.set(this,{});privateAttributesOfCardSet.get(this)._config=config;privateAttributesOfCardSet.get(this)._cards=[];if(Array.isArray(cards)){this.add(cards);}}add(newCards){if(newCards instanceof _Card2.default){newCards=[newCards];}newCards.forEach(card=>{if(card instanceof _Card2.default){privateAttributesOfCardSet.get(this)._cards.push(card);_Card._setParent.call(card,this);}});return this;}remove(card){privateAttributesOfCardSet.get(this)._cards.splice(privateAttributesOfCardSet.get(this)._cards.indexOf(card),1);return this;}drop(newCards){if(!Array.isArray(newCards)){newCards=[newCards];}newCards.forEach(card=>{if(card instanceof _Card2.default&&!this.canDrop||this.canDrop(card)){this.add(card);}});return this;}shuffle(){let tmp,current;let top=privateAttributesOfCardSet.get(this)._cards.length;if(top)while(--top){current=Math.floor(Math.random()*(top+1));tmp=privateAttributesOfCardSet.get(this)._cards[current];privateAttributesOfCardSet.get(this)._cards[current]=privateAttributesOfCardSet.get(this)._cards[top];privateAttributesOfCardSet.get(this)._cards[top]=tmp;}return this;}draw(count){return privateAttributesOfCardSet.get(this)._cards.slice(-count);}each(fn){privateAttributesOfCardSet.get(this)._cards.forEach((card,i)=>{fn(card,i,_Card._getSuit.call(card),_Card._getNumber.call(card));});}map(fn){return privateAttributesOfCardSet.get(this)._cards.map((card,i)=>{return fn(card,i,_Card._getSuit.call(card),_Card._getNumber.call(card));});}}exports.default=CardSet;
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Deck=__webpack_require__(3);var _Deck2=_interopRequireDefault(_Deck);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfPlayer=new WeakMap();class Player{get name(){return privateAttributesOfPlayer.get(this)._name;}get deck(){return privateAttributesOfPlayer.get(this)._deck;}get score(){return privateAttributesOfPlayer.get(this)._score;}constructor(name){privateAttributesOfPlayer.set(this,{});privateAttributesOfPlayer.get(this)._name=name;privateAttributesOfPlayer.get(this)._deck=new _Deck2.default();this.resetScore();}addScore(num){privateAttributesOfPlayer.get(this)._score+=num;}resetScore(){privateAttributesOfPlayer.get(this)._score=0;}}exports.default=Player;
+Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(12);var _Card2=_interopRequireDefault(_Card);var _CardSet=__webpack_require__(13);var _CardSet2=_interopRequireDefault(_CardSet);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfDeck=new WeakMap();class Deck extends _CardSet2.default{get SUITS(){return privateAttributesOfDeck.get(this)._suits;}get NUMBERS(){return privateAttributesOfDeck.get(this)._numbers;}get player(){return privateAttributesOfDeck.get(this)._player;}constructor({suits,numbers},player){super();privateAttributesOfDeck.set(this,{});privateAttributesOfDeck.get(this)._suits=suits;privateAttributesOfDeck.get(this)._numbers=numbers;privateAttributesOfDeck.get(this)._player=player;suits.each(suit=>{numbers.each(number=>{this.add(new _Card2.default(suit,number,this));});});}}exports.default=Deck;
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Player=__webpack_require__(14);var _Player2=_interopRequireDefault(_Player);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const _players=new WeakMap();function _getPlayers(){return _players.get(this);}function cleanPlayers(players){return players.filter(player=>player instanceof _Player2.default);}class Round{constructor(players=[]){if(!Array.isArray(players)){players=[players];}_players.set(this,cleanPlayers(players));}addPlayer(player){_getPlayers.call(this).push(player);return this;}start(){this.eachPlayer(player=>{player.deck.shuffle();player.resetScore();});return this;}eachPlayer(fn){_getPlayers.call(this).forEach(fn);}mapPlayers(fn){return _getPlayers.call(this).map(fn);}}exports.default=Round;
+Object.defineProperty(exports,"__esModule",{value:true});var _Deck=__webpack_require__(14);var _Deck2=_interopRequireDefault(_Deck);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfPlayer=new WeakMap();class Player{get name(){return privateAttributesOfPlayer.get(this)._name;}get deck(){return privateAttributesOfPlayer.get(this)._deck;}get score(){return privateAttributesOfPlayer.get(this)._score;}constructor(name,config){privateAttributesOfPlayer.set(this,{});privateAttributesOfPlayer.get(this)._name=name;privateAttributesOfPlayer.get(this)._config=config;privateAttributesOfPlayer.get(this)._deck=new _Deck2.default(config,this);this.resetScore();}addScore(num){privateAttributesOfPlayer.get(this)._score+=num;}resetScore(){privateAttributesOfPlayer.get(this)._score=privateAttributesOfPlayer.get(this)._config.initialScore;}}exports.default=Player;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:true});var _Player=__webpack_require__(15);var _Player2=_interopRequireDefault(_Player);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfRound=new WeakMap();class Round{constructor(config){privateAttributesOfRound.set(this,{});privateAttributesOfRound.get(this)._config=config;privateAttributesOfRound.get(this)._players=[];}addPlayer(player){if(player instanceof _Player2.default&&privateAttributesOfRound.get(this)._players.indexOf(player)<0){privateAttributesOfRound.get(this)._players.push(player);}return this;}addPlayers(players){players.forEach(player=>this.addPlayer(player));return this;}start(){this.eachPlayer(player=>{player.deck.shuffle();player.resetScore();});return this;}finish(){return this;}eachPlayer(fn){privateAttributesOfRound.get(this)._players.forEach(fn);return this;}mapPlayers(fn){return privateAttributesOfRound.get(this)._players.map(fn);}}exports.default=Round;
 
 /***/ })
 /******/ ]);
