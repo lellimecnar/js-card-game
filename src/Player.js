@@ -16,10 +16,14 @@ export default class Player {
 	constructor(name: String) {
 		this._name = name;
 		this._deck = new Deck();
-		this._score = 0;
+		this.resetScore();
 	}
 
 	addScore(num: Number) {
 		this._score += num;
+	}
+
+	resetScore() {
+		this._score = 0;
 	}
 }

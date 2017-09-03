@@ -3,8 +3,11 @@ import Enum from 'enum';
 import CardSuitSet from './CardSuitSet';
 import CardNumberSet from './CardNumberSet';
 
+import CardSet from '../CardSet';
+
 const _suit = new WeakMap();
 const _number = new WeakMap();
+const _parent = new WeakMap();
 const _group = {};
 const config = {};
 
@@ -14,12 +17,40 @@ function makeRange(max) {
 	return [...Array(max)].map((val, n) => NUMBERS[++n]);
 }
 
+export function _getSuit() {
+	return _suit.get(this);
+}
+
+export function _getNumber() {
+	return _number.get(this);
+}
+
+function _getParent() {
+	return _parent.get(this);
+}
+
+export function _setParent(newParent: CardSet) {
+	if (newParent instanceof CardSet) {
+		throw new Error('parent of Card can only be an instance of CardSet');
+	}
+
+	if (this.parent) {
+		this.parent.remove(this);
+	}
+
+	_parent.set(this, newParent);
+}
+
 function _getNumberIndex() {
-	return Card.NUMBERS.enums.indexOf(_number.get(this));
+	return Card.NUMBERS.enums.indexOf(this::_getNumber());
 }
 
 function _getSuitName() {
-	return _suit.get(this).key;
+	return this::_getSuit().key;
+}
+
+function _getNumberName() {
+	return this::_getNumber().key;
 }
 
 function _getSuitGroup() {
@@ -99,6 +130,10 @@ export default class Card {
 		}
 	}
 
+	get parent() {
+		return this::_getParent();
+	}
+
 	constructor(suit, number) {
 		if (!Card.SUITS.get(suit)) {
 			throw new Error(`"${suit}" is not a valid suit`);
@@ -137,6 +172,10 @@ export default class Card {
 
 	isMinusOne(card: Card) {
 		return this::_getNumberIndex() + 1 === card::_getNumberIndex();
+	}
+
+	toString() {
+		return `Card {${this::_getSuitName()}, ${this::_getNumberName()}}`;
 	}
 }
 

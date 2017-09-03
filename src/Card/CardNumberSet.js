@@ -7,4 +7,8 @@ export default class CardNumberSet extends Enum {
 			freez: true,
 		});
 	}
+
+	each(fn) {
+		this.enums.forEach(number => fn(number.key));
+	}
 }

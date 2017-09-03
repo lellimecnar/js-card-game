@@ -1,8 +1,16 @@
 const CardGame = require('./dist/CardGame.js');
 
-CardGame.Card.config(CardGame.Card.PRESETS.ROOK);
+const player = new CardGame.Player('Lance');
+const round = new CardGame.Round([player]);
 
-const card1 = new CardGame.Card('BLACK', 'SIX');
-const card2 = new CardGame.Card('RED', 'FIVE');
+player.addScore(50);
 
-console.log(card1.isSameSuitGroup(card2));
+function log() {
+	console.log(round.mapPlayers(({name, deck, score}) => ({name, score, cards: deck.map((card, i, suit, number) => `${suit}:${number}`)})));
+}
+
+log();
+
+round.start();
+
+log();

@@ -7,4 +7,8 @@ export default class CardSuitSet extends Enum {
 			freez: true,
 		});
 	}
+
+	each(fn) {
+		this.enums.forEach(suit => fn(suit.key));
+	}
 }

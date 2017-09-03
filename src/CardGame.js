@@ -13,15 +13,15 @@ export default class CardGame {
 		return CardSet;
 	}
 
-	static Deck() {
+	static get Deck() {
 		return Deck;
 	}
 
-	static Player() {
+	static get Player() {
 		return Player;
 	}
 
-	static Round() {
+	static get Round() {
 		return Round;
 	}
 }
