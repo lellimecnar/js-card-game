@@ -1,12 +1,21 @@
 import Card, {_getSuit, _getNumber, _setParent} from './Card';
 import Emitter from 'tiny-emitter';
 
+const _cards = new WeakMap();
 const _events = new WeakMap();
 const _config = new WeakMap();
 
 export function _emit(type, ...args) {
 	_events.get(this).emit(type, this, ...args);
 	_config.get(this).emit(`cardSet:${type}`, this, ...args);
+}
+
+function _getCards() {
+	return _cards.get(this);
+}
+
+function _getEvents() {
+	return _events.get(this);
 }
 
 export default class CardSet {
@@ -22,7 +31,7 @@ export default class CardSet {
 	constructor(cards: Array, config) {
 		_config.set(this, config);
 		_events.set(this, new Emitter());
-		this._cards = [];
+		_cards.set(this, []);
 
 		if (Array.isArray(cards)) {
 			this.add(cards);
@@ -36,7 +45,7 @@ export default class CardSet {
 
 		newCards.forEach(card => {
 			if (card instanceof Card) {
-				this._cards.push(card);
+				this::_getCards().push(card);
 				card::_setParent(this);
 
 				this::_emit('addCard', card);
@@ -47,7 +56,7 @@ export default class CardSet {
 	}
 
 	remove(card: Card) {
-		this._cards.splice(this._cards.indexOf(card), 1);
+		this::_getCards().splice(this::_getCards().indexOf(card), 1);
 
 		this::_emit('removeCard', card);
 
@@ -77,13 +86,13 @@ export default class CardSet {
 
 	shuffle() {
 		let tmp, current;
-		let top = this._cards.length;
+		let top = this::_getCards().length;
 
 		if (top) while(--top) {
 			current = Math.floor(Math.random() * (top + 1));
-			tmp = this._cards[current];
-			this._cards[current] = this._cards[top];
-			this._cards[top] = tmp;
+			tmp = this::_getCards()[current];
+			this::_getCards()[current] = this::_getCards()[top];
+			this::_getCards()[top] = tmp;
 		}
 
 		this::_emit('shuffle', this);
@@ -91,39 +100,47 @@ export default class CardSet {
 		return this;
 	}
 
+	sort() {
+		this::_getCards().sort((a, b) => {
+			return
+		})
+
+		return this;
+	}
+
 	draw(count: Number) {
-		const cards = this._cards.slice(-(count));
+		const cards = this::_getCards().slice(-(count));
 		this::_emit('drawCards', cards);
 
 		return cards;
 	}
 
 	each(fn) {
-		this._cards.forEach((card, i) => {
+		this::_getCards().forEach((card, i) => {
 			fn(card, i, card::_getSuit(), card::_getNumber());
 		});
 	}
 
 	map(fn) {
-		return this._cards.map((card, i) => {
+		return this::_getCards().map((card, i) => {
 			return fn(card, i, card::_getSuit(), card::_getNumber());
 		});
 	}
 
 	on(...args) {
-		this._events.on(...args);
+		this::_getEvents().on(...args);
 
 		return this;
 	}
 
 	one(...args) {
-		this._events.one(...args);
+		this::_getEvents().one(...args);
 
 		return this;
 	}
 
 	off(...args) {
-		this._events.off(...args);
+		this::_getEvents().off(...args);
 
 		return this;
 	}

@@ -6,7 +6,12 @@ import Round from '../Round';
 
 import Config from './Config';
 
+const _config = new WeakMap();
 const _rounds = new WeakMap();
+
+function _getConfig() {
+	_config.get(this);
+}
 
 function _getRounds() {
 	return _rounds.get(this);
@@ -49,7 +54,7 @@ export default class CardGame {
 			config = new Config(config);
 		}
 
-		this._config = config;
+		_config.set(this, config);
 
 		_rounds.set(this, [new Round(config)]);
 
@@ -58,7 +63,7 @@ export default class CardGame {
 
 	addPlayer(player: Player|String) {
 		if (player && typeof player === 'string') {
-			player = new Player(player, this._config);
+			player = new Player(player, this::_getConfig());
 		}
 
 		this.currentRound.addPlayer(player);
@@ -91,26 +96,26 @@ export default class CardGame {
 	newRound(players: Array) {
 		players = this.currentRound.mapPlayers(player => player).concat(players || []);
 
-		this::_getRounds().push(new Round(this._config).addPlayers(players));
+		this::_getRounds().push(new Round(this::_getConfig()).addPlayers(players));
 
 		return this;
 	}
 
 
 	on(...args) {
-		this._config.on(...args);
+		this::_getConfig().on(...args);
 
 		return this;
 	}
 
 	once(...args) {
-		this._config.once(...args);
+		this::_getConfig().once(...args);
 
 		return this;
 	}
 
 	off(...args) {
-		this._config.off(...args);
+		this::_getConfig().off(...args);
 
 		return this;
 	}

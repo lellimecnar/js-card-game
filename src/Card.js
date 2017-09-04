@@ -3,6 +3,8 @@ import CardSet from './CardSet';
 const _suit = new WeakMap();
 const _number = new WeakMap();
 const _parent = new WeakMap();
+const _deck = new WeakMap();
+const _config = new WeakMap();
 
 export function _getSuit() {
 	return _suit.get(this);
@@ -44,6 +46,14 @@ function _getSuitGroup() {
 	return this::_getSuit().value;
 }
 
+function _getDeck() {
+	return _deck.get(this);
+}
+
+function _emit(...args) {
+	_config.get(this).emit(...args);
+}
+
 export default class Card {
 
 	static compare(a: Card, b: Card, fn: Function) {
@@ -66,10 +76,10 @@ export default class Card {
 	constructor(suit, number, deck, config) {
 		_suit.set(this, deck.SUITS.get(suit));
 		_number.set(this, deck.NUMBERS.get(number));
-		this._deck = deck;
-		this._config = config;
+		_deck.set(this, deck);
+		_config.set(this, config);
 
-		this._config.emit('card:create', this);
+		this::_emit('card:create', this);
 	}
 
 	isSameSuit(card: Card) {

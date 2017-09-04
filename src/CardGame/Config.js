@@ -1,8 +1,6 @@
 import Enum from 'enum';
 import Emitter from 'tiny-emitter';
 
-const events = new Emitter();
-
 const NUMBERS = ['ZERO','ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN','TWELVE','THIRTEEN','FOURTEEN','FIFTEEN','SIXTEEN','SEVENTEEN','EIGHTEEN','NINETEEN','TWENTY'];
 
 const STANDARD_SUITS = {RED:['HEARTS','DIAMONDS'],BLACK:['CLUBS','SPADES']};
@@ -79,17 +77,26 @@ class NumberEnum extends Enum {
 	}
 }
 
+const _suits = new WeakMap();
+const _numbers = new WeakMap();
+const _initialScore = new WeakMap();
+const _events = new WeakMap();
+
+function _getEvents() {
+	return _events.get(this);
+}
+
 export default class Config {
 	get suits() {
-		return this._suits;
+		return _suits.get(this);
 	}
 
 	get numbers() {
-		return this._numbers;
+		return _numbers.get(this);
 	}
 
 	get initialScore() {
-		return this._initialScore;
+		return _initialScore.get(this);
 	}
 
 	constructor({
@@ -97,31 +104,32 @@ export default class Config {
 		numbers = STANDARD_NUMBERS,
 		initialScore = 0,
 	} = {}) {
-		this._suits = new SuitEnum(suits);
-		this._numbers = new NumberEnum(numbers);
-		this._initialScore = initialScore;
+		_suits.set(this, new SuitEnum(suits));
+		_numbers.set(this, new NumberEnum(numbers));
+		_initialScore.set(this, initialScore);
+		_events.set(this, new Emitter());
 	}
 
 	on(...args) {
-		events.on(...args);
+		this::_getEvents().on(...args);
 
 		return this;
 	}
 
 	once(...args) {
-		events.once(...args);
+		this::_getEvents().once(...args);
 
 		return this;
 	}
 
 	off(...args) {
-		events.off(...args);
+		this::_getEvents().off(...args);
 
 		return this;
 	}
 
 	emit(...args) {
-		events.emit(...args);
+		this::_getEvents().emit(...args);
 
 		return this;
 	}

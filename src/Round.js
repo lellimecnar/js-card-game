@@ -1,20 +1,31 @@
 import Player from './Player';
 
+const _config = new WeakMap();
+const _players = new WeakMap();
+
+function _getPlayers() {
+	return _players.get(this);
+}
+
+function _emit(...args) {
+	_config.get(this).emit(...args);
+}
+
 export default class Round {
 	constructor(config) {
-		this._config = config;
-		this._players = [];
+		_config.set(this, config);
+		_players.set(this, []);
 
-		this._config.emit('round:create', this);
+		this::_emit('round:create', this);
 	}
 
 	addPlayer(player: Player) {
 		if (
 			player instanceof Player &&
-			this._players.indexOf(player) < 0
+			this::_getPlayers().indexOf(player) < 0
 		) {
-			this._players.push(player);
-			this._config.emit('round:addPlayer', this, player);
+			this::_getPlayers().push(player);
+			this::_emit('round:addPlayer', this, player);
 		}
 
 		return this;
@@ -32,23 +43,23 @@ export default class Round {
 			player.resetScore();
 		});
 
-		this._config.emit('round:start', this);
+		this::_emit('round:start', this);
 		return this;
 	}
 
 	finish() {
 
-		this._config.emit('round:finish', this);
+		this::_emit('round:finish', this);
 		return this;
 	}
 
 	eachPlayer(fn) {
-		this._players.forEach(fn);
+		this::_getPlayers().forEach(fn);
 
 		return this;
 	}
 
 	mapPlayers(fn) {
-		return this._players.map(fn);
+		return this::_getPlayers().map(fn);
 	}
 }

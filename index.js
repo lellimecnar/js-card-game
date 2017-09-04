@@ -1,5 +1,6 @@
 const CardGame = require('./dist/CardGame.js');
 
-new CardGame()
-	.addPlayer('Lance')
+const game = new CardGame();
+
+game.addPlayer('Lance')
 	.startRound();
