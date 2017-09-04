@@ -39,17 +39,11 @@ export default class Round {
 	}
 
 	start() {
-		this.eachPlayer(player => {
-			player.deck.shuffle();
-			player.resetScore();
-		});
-
 		this::_emit('round:start', this);
 		return this;
 	}
 
 	finish() {
-
 		this::_emit('round:finish', this);
 		return this;
 	}

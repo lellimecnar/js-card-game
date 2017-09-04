@@ -714,8 +714,7 @@ var Player = function () {
 		_name.set(this, name);
 		_config.set(this, config);
 		_deck.set(this, new _Deck2.default(config, this));
-
-		this.resetScore();
+		_score.set(this, 0);
 
 		_emit.call(this, 'player:create', this);
 	}
@@ -727,15 +726,6 @@ var Player = function () {
 			_score.set(this, oldScore + num);
 
 			_emit.call(this, 'player:addScore', this, oldScore, this.score);
-
-			return this;
-		}
-	}, {
-		key: 'resetScore',
-		value: function resetScore() {
-			_score.set(this, _getConfig.call(this).initialScore);
-
-			_emit.call(this, 'player:resetScore', this);
 
 			return this;
 		}
@@ -1037,18 +1027,12 @@ var Round = function () {
 	}, {
 		key: 'start',
 		value: function start() {
-			this.eachPlayer(function (player) {
-				player.deck.shuffle();
-				player.resetScore();
-			});
-
 			_emit.call(this, 'round:start', this);
 			return this;
 		}
 	}, {
 		key: 'finish',
 		value: function finish() {
-
 			_emit.call(this, 'round:finish', this);
 			return this;
 		}
@@ -1218,7 +1202,6 @@ var NumberEnum = function (_Enum2) {
 
 var _suits = new WeakMap();
 var _numbers = new WeakMap();
-var _initialScore = new WeakMap();
 var _events = new WeakMap();
 var _logging = new WeakMap();
 
@@ -1238,11 +1221,6 @@ var Config = function () {
 			return _numbers.get(this);
 		}
 	}, {
-		key: 'initialScore',
-		get: function get() {
-			return _initialScore.get(this);
-		}
-	}, {
 		key: 'logging',
 		get: function get() {
 			return _logging.get(this);
@@ -1257,15 +1235,12 @@ var Config = function () {
 		    _ref$suits = _ref.suits,
 		    suits = _ref$suits === undefined ? STANDARD_SUITS : _ref$suits,
 		    _ref$numbers = _ref.numbers,
-		    numbers = _ref$numbers === undefined ? STANDARD_NUMBERS : _ref$numbers,
-		    _ref$initialScore = _ref.initialScore,
-		    initialScore = _ref$initialScore === undefined ? 0 : _ref$initialScore;
+		    numbers = _ref$numbers === undefined ? STANDARD_NUMBERS : _ref$numbers;
 
 		_classCallCheck(this, Config);
 
 		_suits.set(this, new SuitEnum(suits));
 		_numbers.set(this, new NumberEnum(numbers));
-		_initialScore.set(this, initialScore);
 		_events.set(this, new _tinyEmitter2.default());
 		_logging.set(this, false);
 	}

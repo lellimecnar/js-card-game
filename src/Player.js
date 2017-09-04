@@ -31,8 +31,7 @@ export default class Player {
 		_name.set(this, name);
 		_config.set(this, config);
 		_deck.set(this, new Deck(config, this));
-
-		this.resetScore();
+		_score.set(this, 0);
 
 		this::_emit('player:create', this);
 	}
@@ -42,14 +41,6 @@ export default class Player {
 		_score.set(this, oldScore + num);
 
 		this::_emit('player:addScore', this, oldScore, this.score);
-
-		return this;
-	}
-
-	resetScore() {
-		_score.set(this, this::_getConfig().initialScore);
-
-		this::_emit('player:resetScore', this);
 
 		return this;
 	}

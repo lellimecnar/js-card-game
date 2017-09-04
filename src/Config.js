@@ -89,7 +89,6 @@ class NumberEnum extends Enum {
 
 const _suits = new WeakMap();
 const _numbers = new WeakMap();
-const _initialScore = new WeakMap();
 const _events = new WeakMap();
 const _logging = new WeakMap();
 
@@ -107,10 +106,6 @@ export default class Config {
 		return _numbers.get(this);
 	}
 
-	get initialScore() {
-		return _initialScore.get(this);
-	}
-
 	get logging() {
 		return _logging.get(this);
 	}
@@ -122,11 +117,9 @@ export default class Config {
 	constructor({
 		suits = STANDARD_SUITS,
 		numbers = STANDARD_NUMBERS,
-		initialScore = 0,
 	} = {}) {
 		_suits.set(this, new SuitEnum(suits));
 		_numbers.set(this, new NumberEnum(numbers));
-		_initialScore.set(this, initialScore);
 		_events.set(this, new Emitter());
 		_logging.set(this, false);
 	}
