@@ -60,6 +60,12 @@ export default class CardGame {
 		this.addPlayers(players);
 	}
 
+	enableLogging() {
+		_config.get(this).logging = true;
+
+		return this;
+	}
+
 	addPlayer(player: Player|String) {
 		if (player && typeof player === 'string') {
 			player = new Player(player, this::_getConfig());

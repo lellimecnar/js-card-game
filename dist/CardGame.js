@@ -1,1 +1,1924 @@
-!function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.CardGame=e():t.CardGame=e()}(this,function(){return function(t){function e(r){if(n[r])return n[r].exports;var i=n[r]={i:r,l:!1,exports:{}};return t[r].call(i.exports,i,i.exports,e),i.l=!0,i.exports}var n={};return e.m=t,e.c=n,e.d=function(t,n,r){e.o(t,n)||Object.defineProperty(t,n,{configurable:!1,enumerable:!0,get:r})},e.n=function(t){var n=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(n,"a",n),n},e.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},e.p="",e(e.s=6)}([function(t,e,n){"use strict";function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function i(){return d.get(this)}function u(){return v.get(this)}function o(t){if(!(t&&(t instanceof y.default||t.constructor instanceof y.default)))throw new Error("parent of Card can only be an instance of CardSet");this.parent&&this.parent.remove(this),g.set(this,t)}function a(){return u.call(this).value.index}function s(){return i.call(this).key}function c(){return u.call(this).key}function f(){return i.call(this).value}function l(){var t;(t=_.get(this)).emit.apply(t,arguments)}Object.defineProperty(e,"__esModule",{value:!0});var h=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}();e._getSuit=i,e._getNumber=u,e._setParent=o;var p=n(1),y=function(t){return t&&t.__esModule?t:{default:t}}(p),d=new WeakMap,v=new WeakMap,g=new WeakMap,m=new WeakMap,_=new WeakMap,b=function(){function t(e,n,i,u){r(this,t),d.set(this,u.suits.get(e)),v.set(this,u.numbers.get(n)),m.set(this,i),_.set(this,u),l.call(this,"card:create",this)}return h(t,[{key:"parent",get:function(){return g.get(this)}},{key:"deck",get:function(){return m.get(this)}}],[{key:"compare",value:function(t,e,n){return n({sameSuit:s.call(t)===s.call(e),sameSuitGroup:f.call(t)===f.call(e),sameNumber:c.call(t)===c.call(t),numberDiff:a.call(t)-a.call(e)})}}]),h(t,[{key:"isSameSuit",value:function(e){return t.compare(this,e,function(t){return t.sameSuit})}},{key:"isSameSuitGroup",value:function(e){return t.compare(this,e,function(t){return t.sameSuitGroup})}},{key:"isDiff",value:function(e,n){return"number"==typeof n&&(n=function(t){return t===n}),t.compare(this,e,function(t){var e=t.numberDiff;return n(e)})}},{key:"isSameNumber",value:function(t){return this.isDiff(t,0)}},{key:"isGreaterThan",value:function(t){return this.isDiff(t,function(t){return t>0})}},{key:"isLessThan",value:function(t){return this.isDiff(t,function(t){return t<0})}},{key:"isPlusOne",value:function(t){return this.isDiff(t,1)}},{key:"isMinusOne",value:function(t){return this.isDiff(t,-1)}},{key:"toString",value:function(){return"Card {"+s.call(this)+", "+c.call(this)+"}"}}]),t}();e.default=b},function(t,e,n){"use strict";function r(t){return t&&t.__esModule?t:{default:t}}function i(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function u(){return d.get(this)}function o(){return v.get(this)}function a(){return g.get(this)}function s(t){for(var e,n,r=arguments.length,i=Array(r>1?r-1:0),u=1;u<r;u++)i[u-1]=arguments[u];(e=o.call(this)).emit.apply(e,[t,this].concat(i)),(n=a.call(this)).emit.apply(n,["cardSet:"+t,this].concat(i))}function c(){console.log(u.call(this).map(function(t){return[l._getSuit.call(t).key,l._getNumber.call(t).key]}))}Object.defineProperty(e,"__esModule",{value:!0});var f=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}();e._emit=s;var l=n(0),h=r(l),p=n(2),y=r(p),d=new WeakMap,v=new WeakMap,g=new WeakMap,m=function(){function t(e,n){i(this,t),g.set(this,n),v.set(this,new y.default),d.set(this,[]),Array.isArray(e)&&this.add(e)}return f(t,[{key:"topCard",get:function(){var t=u.call(this);return t[t.length]}},{key:"length",get:function(){return u.call(this).length}}]),f(t,[{key:"add",value:function(t){var e=this;return t instanceof h.default&&(t=[t]),t.forEach(function(t){t instanceof h.default&&(u.call(e).push(t),l._setParent.call(t,e),s.call(e,"addCard",t))}),this}},{key:"remove",value:function(t){return u.call(this).splice(u.call(this).indexOf(t),1),s.call(this,"removeCard",t),this}},{key:"drop",value:function(t){var e=this;return Array.isArray(t)||(t=[t]),t.forEach(function(t){t instanceof h.default&&!e.canDrop||!1!==e.canDrop(t)?(e.add(t),s.call(e,"dropCard",t)):s.call(e,"rejectCard",t)}),this}},{key:"shuffle",value:function(){var t=void 0,e=void 0,n=u.call(this).length;if(n)for(;--n;)e=Math.floor(Math.random()*(n+1)),t=u.call(this)[e],u.call(this)[e]=u.call(this)[n],u.call(this)[n]=t;return s.call(this,"shuffle",this),c.call(this),this}},{key:"sort",value:function(){var t=a.call(this).numbers.length;return u.call(this).sort(function(e,n){return l._getSuit.call(e).value.index*t+l._getNumber.call(e).value.index-(l._getSuit.call(n).value.index*t+l._getNumber.call(n).value.index)}),s.call(this,"sort",this),c.call(this),this}},{key:"draw",value:function(t){var e=u.call(this).slice(-t);return s.call(this,"drawCards",this,e),e}},{key:"each",value:function(t){u.call(this).forEach(function(e,n){t(e,n,l._getSuit.call(e),l._getNumber.call(e))})}},{key:"map",value:function(t){return u.call(this).map(function(e,n){return t(e,n,l._getSuit.call(e),l._getNumber.call(e))})}},{key:"on",value:function(){var t;return(t=o.call(this)).on.apply(t,arguments),this}},{key:"one",value:function(){var t;return(t=o.call(this)).one.apply(t,arguments),this}},{key:"off",value:function(){var t;return(t=o.call(this)).off.apply(t,arguments),this}}]),t}();e.default=m},function(t,e){function n(){}n.prototype={on:function(t,e,n){var r=this.e||(this.e={});return(r[t]||(r[t]=[])).push({fn:e,ctx:n}),this},once:function(t,e,n){function r(){i.off(t,r),e.apply(n,arguments)}var i=this;return r._=e,this.on(t,r,n)},emit:function(t){var e=[].slice.call(arguments,1),n=((this.e||(this.e={}))[t]||[]).slice(),r=0,i=n.length;for(r;r<i;r++)n[r].fn.apply(n[r].ctx,e);return this},off:function(t,e){var n=this.e||(this.e={}),r=n[t],i=[];if(r&&e)for(var u=0,o=r.length;u<o;u++)r[u].fn!==e&&r[u].fn._!==e&&i.push(r[u]);return i.length?n[t]=i:delete n[t],this}},t.exports=n},function(t,e,n){"use strict";function r(t){return t&&t.__esModule?t:{default:t}}function i(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function u(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}function o(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}function a(){return p.get(this)}Object.defineProperty(e,"__esModule",{value:!0});var s=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),c=n(0),f=r(c),l=n(1),h=r(l),p=new WeakMap,y=new WeakMap,d=function(t){function e(t,n){i(this,e);var r=u(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,null,t));return p.set(r,t),y.set(r,n),t.suits.each(function(e){t.numbers.each(function(n){r.add(new f.default(e,n,r,t))})}),l._emit.call(r,"deck:create",r),r}return o(e,t),s(e,[{key:"suits",get:function(){return a.call(this).suits}},{key:"numbers",get:function(){return a.call(this).numbers}},{key:"player",get:function(){return y.get(this)}}]),s(e,[{key:"canDrop",value:function(){return!1}}]),e}(h.default);e.default=d},function(t,e,n){"use strict";function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function i(){var t;(t=f.get(this)).emit.apply(t,arguments)}function u(){return f.get(this)}Object.defineProperty(e,"__esModule",{value:!0});var o=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),a=n(3),s=function(t){return t&&t.__esModule?t:{default:t}}(a),c=new WeakMap,f=new WeakMap,l=new WeakMap,h=new WeakMap,p=function(){function t(e,n){r(this,t),c.set(this,e),f.set(this,n),l.set(this,new s.default(n,this)),this.resetScore(),i.call(this,"player:create",this)}return o(t,[{key:"name",get:function(){return c.get(this)}},{key:"deck",get:function(){return l.get(this)}},{key:"score",get:function(){return h.get(this)}}]),o(t,[{key:"addScore",value:function(t){var e=this.score;return h.set(this,e+t),i.call(this,"player:addScore",this,e,this.score),this}},{key:"resetScore",value:function(){return h.set(this,u.call(this).initialScore),i.call(this,"player:resetScore",this),this}}]),t}();e.default=p},function(t,e,n){"use strict";e.__esModule=!0;var r=function(t,e){return typeof e===t};e.isType=r;var i=function(t){return r("object",t)};e.isObject=i;var u=function(t){return r("string",t)};e.isString=u;var o=function(t){return r("number",t)};e.isNumber=o},function(t,e,n){"use strict";function r(t){return t&&t.__esModule?t:{default:t}}function i(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function u(){return b.get(this)}function o(){return k.get(this)}Object.defineProperty(e,"__esModule",{value:!0});var a=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),s=n(0),c=r(s),f=n(1),l=r(f),h=n(3),p=r(h),y=n(4),d=r(y),v=n(7),g=r(v),m=n(8),_=r(m),b=new WeakMap,k=new WeakMap,w=function(){function t(e,n){i(this,t),e=e||{},e instanceof _.default||(e=new _.default(e)),b.set(this,e),k.set(this,[new g.default(e)]),this.addPlayers(n)}return a(t,[{key:"currentRound",get:function(){return o.call(this).slice(-1)[0]}}],[{key:"Config",get:function(){return _.default}},{key:"Card",get:function(){return c.default}},{key:"CardSet",get:function(){return l.default}},{key:"Deck",get:function(){return p.default}},{key:"Player",get:function(){return d.default}},{key:"Round",get:function(){return g.default}}]),a(t,[{key:"addPlayer",value:function(t){return t&&"string"==typeof t&&(t=new d.default(t,u.call(this))),this.currentRound.addPlayer(t),this}},{key:"addPlayers",value:function(t){return Array.isArray(t)||(t=[t]),t.forEach(this.addPlayer.bind(this)),this}},{key:"startRound",value:function(){return this.currentRound.start(),this}},{key:"finishRound",value:function(){return this.currentRound.finish(),this}},{key:"newRound",value:function(t){return t=this.currentRound.mapPlayers(function(t){return t}).concat(t||[]),o.call(this).push(new g.default(u.call(this)).addPlayers(t)),this}},{key:"on",value:function(){var t;return(t=u.call(this)).on.apply(t,arguments),this}},{key:"once",value:function(){var t;return(t=u.call(this)).once.apply(t,arguments),this}},{key:"off",value:function(){var t;return(t=u.call(this)).off.apply(t,arguments),this}}]),t}();e.default=w,t.exports=w},function(t,e,n){"use strict";function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function i(){return f.get(this)}function u(){var t;(t=c.get(this)).emit.apply(t,arguments)}Object.defineProperty(e,"__esModule",{value:!0});var o=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),a=n(4),s=function(t){return t&&t.__esModule?t:{default:t}}(a),c=new WeakMap,f=new WeakMap,l=function(){function t(e){r(this,t),c.set(this,e),f.set(this,[]),u.call(this,"round:create",this)}return o(t,[{key:"addPlayer",value:function(t){return t instanceof s.default&&i.call(this).indexOf(t)<0&&(i.call(this).push(t),u.call(this,"round:addPlayer",this,t)),this}},{key:"addPlayers",value:function(t){var e=this;return t.forEach(function(t){return e.addPlayer(t)}),this}},{key:"start",value:function(){return this.eachPlayer(function(t){t.deck.shuffle(),t.resetScore()}),u.call(this,"round:start",this),this}},{key:"finish",value:function(){return u.call(this,"round:finish",this),this}},{key:"eachPlayer",value:function(t){return i.call(this).forEach(t),this}},{key:"mapPlayers",value:function(t){return i.call(this).map(t)}}]),t}();e.default=l},function(t,e,n){"use strict";function r(t){return t&&t.__esModule?t:{default:t}}function i(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function u(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}function o(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}function a(t){if(Array.isArray(t)){for(var e=0,n=Array(t.length);e<t.length;e++)n[e]=t[e];return n}return Array.from(t)}function s(t){return t.trim().replace(/\s+/g,"_").toUpperCase()}function c(t){return[].concat(a(Array(t))).map(function(t,e){return v[++e]})}function f(){return O.get(this)}Object.defineProperty(e,"__esModule",{value:!0});var l=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),h=n(9),p=r(h),y=n(2),d=r(y),v=["ZERO","ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE","TEN","ELEVEN","TWELVE","THIRTEEN","FOURTEEN","FIFTEEN","SIXTEEN","SEVENTEEN","EIGHTEEN","NINETEEN","TWENTY"],g={RED:["HEARTS","DIAMONDS"],BLACK:["CLUBS","SPADES"]},m=["ACE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE","TEN","JACK","QUEEN","KING"],_=function(t){function e(t){i(this,e);var n={},r={};if(!Array.isArray(t)){var o=[],c=Object.keys(t);c.forEach(function(e){o=[].concat(a(o),a(t[e])),t[e].forEach(function(t){n[t]=c[e]})}),t=o}return t.forEach(function(t,e){r[s(t)]={index:e,group:n[t]}}),u(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,r))}return o(e,t),l(e,[{key:"length",get:function(){return this.enums.length}}]),l(e,[{key:"each",value:function(t){this.enums.forEach(function(e){return t(e.key)})}}]),e}(p.default),b=function(t){function e(t){i(this,e),"number"==typeof t&&(t=c(t));var n={},r={};if(!Array.isArray(t)){t=Object.keys(t)}return t.forEach(function(t,e){r[s(t)]={index:e,value:n[t]}}),u(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,r))}return o(e,t),l(e,[{key:"length",get:function(){return this.enums.length}}]),l(e,[{key:"each",value:function(t){this.enums.forEach(function(e){return t(e.key)})}}]),e}(p.default),k=new WeakMap,w=new WeakMap,E=new WeakMap,O=new WeakMap,M=function(){function t(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=e.suits,r=void 0===n?g:n,u=e.numbers,o=void 0===u?m:u,a=e.initialScore,s=void 0===a?0:a;i(this,t),k.set(this,new _(r)),w.set(this,new b(o)),E.set(this,s),O.set(this,new d.default)}return l(t,[{key:"suits",get:function(){return k.get(this)}},{key:"numbers",get:function(){return w.get(this)}},{key:"initialScore",get:function(){return E.get(this)}}]),l(t,[{key:"on",value:function(){var t;return(t=f.call(this)).on.apply(t,arguments),this}},{key:"once",value:function(){var t;return(t=f.call(this)).once.apply(t,arguments),this}},{key:"off",value:function(){var t;return(t=f.call(this)).off.apply(t,arguments),this}},{key:"emit",value:function(){var t;return(t=f.call(this)).emit.apply(t,arguments),this}}]),t}();e.default=M},function(t,e,n){t.exports=n(10)},function(t,e,n){"use strict";(function(e){function r(t,e){if(t&&"name"===e||l.call(d,e)>=0)throw new Error("Enum key "+e+" is a reserved word!")}var i=function(t){return t&&t.__esModule?t.default:t},u=function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")},o=i(n(12)),a=i(n(13)),s=n(5),c=s.isString,f=s.isNumber,l=n(14).indexOf,h=i(n(15)),p=o.endianness(),y=function(){function t(e,n){var i=this;if(u(this,t),this.size=4,this.indirection=1,n&&c(n)&&(n={name:n}),this._options=n||{},this._options.separator=this._options.separator||" | ",this._options.endianness=this._options.endianness||p,this._options.ignoreCase=this._options.ignoreCase||!1,this._options.freez=this._options.freez||!1,this.enums=[],e.length){this._enumLastIndex=e.length;var o=e;e={};for(var s=0;s<o.length;s++)e[o[s]]=Math.pow(2,s)}for(var f in e)r(this._options.name,f),this[f]=new a(f,e[f],{ignoreCase:this._options.ignoreCase}),this.enums.push(this[f]);this._enumMap=e,this._options.ignoreCase&&(this.getLowerCaseEnums=function(){for(var t={},e=0,n=this.enums.length;e<n;e++)t[this.enums[e].key.toLowerCase()]=this.enums[e];return t}),this._options.name&&(this.name=this._options.name);this.isFlaggable=function(){for(var t=0,e=i.enums.length;t<e;t++){var n=i.enums[t];if(0===n.value||n.value&n.value-1)return!1}return!0}(),this._options.freez&&this.freezeEnums()}return t.prototype.getKey=function(t){var e=this.get(t);if(e)return e.key},t.prototype.getValue=function(t){var e=this.get(t);if(e)return e.value},t.prototype.get=function(t,e){if(null!==t&&void 0!==t){if(h(t)&&(t=t["readUInt32"+this._options.endianness](e||0)),a.isEnumItem(t)){if(l.call(this.enums,t)>=0)return t;if(!this.isFlaggable||this.isFlaggable&&t.key.indexOf(this._options.separator)<0)return;return this.get(t.key)}if(c(t)){var n=this;if(this._options.ignoreCase&&(n=this.getLowerCaseEnums(),t=t.toLowerCase()),t.indexOf(this._options.separator)>0){for(var r=t.split(this._options.separator),i=0,u=0;u<r.length;u++){i|=n[r[u]].value}return new a(t,i)}return n[t]}for(var o in this)if(this.hasOwnProperty(o)&&this[o].value===t)return this[o];var s=null;if(this.isFlaggable)for(var f in this)this.hasOwnProperty(f)&&0!=(t&this[f].value)&&(s?s+=this._options.separator:s="",s+=f);return this.get(s||null)}},t.prototype.set=function(t,e,n){var r=this.get(n);if(r)return t["writeUInt32"+this._options.endianness](r.value,e||0)},t.prototype.freezeEnums=function(){function t(t){return Object.getOwnPropertyNames(t).forEach(function(e){Object.getOwnPropertyDescriptor(t,e).configurable&&Object.defineProperties(t,e,{writable:!1,configurable:!1})}),t}function e(t){return t}function n(r){if("object"==typeof r&&null!==r&&!Object.isFrozen(r)&&!Object.isSealed(r)){for(var i in r)r.hasOwnProperty(i)&&(r.__defineGetter__(i,e.bind(null,r[i])),r.__defineSetter__(i,function(t){throw TypeError("Cannot redefine property; Enum Type is not extensible.")}),n(r[i]));Object.freeze?Object.freeze(r):t(r)}}return function(){return Object.isFrozen&&Object.isSealed&&Object.getOwnPropertyNames&&Object.getOwnPropertyDescriptor&&Object.defineProperties&&Object.__defineGetter__&&Object.__defineSetter__}()&&n(this),this},t.prototype.isDefined=function(t){var e=function(e){return e===t};return(c(t)||f(t))&&(e=function(e){return e.is(t)}),this.enums.some(e)},t.prototype.toJSON=function(){return this._enumMap},t.prototype.extend=function(t){if(t.length){var e=t;t={};for(var n=0;n<e.length;n++){var i=this._enumLastIndex+n;t[e[n]]=Math.pow(2,i)}for(var u in t)r(this._options.name,u),this[u]=new a(u,t[u],{ignoreCase:this._options.ignoreCase}),this.enums.push(this[u]);for(var o in this._enumMap)t[o]=this._enumMap[o];this._enumLastIndex+=t.length,this._enumMap=t,this._options.freez&&this.freezeEnums()}},t.register=function(){var n=void 0===arguments[0]?"Enum":arguments[0];e[n]||(e[n]=t)},t}();t.exports=y;var d=["_options","get","getKey","getValue","enums","isFlaggable","_enumMap","toJSON","_enumLastIndex"]}).call(e,n(11))},function(t,e){var n;n=function(){return this}();try{n=n||Function("return this")()||(0,eval)("this")}catch(t){"object"==typeof window&&(n=window)}t.exports=n},function(t,e){e.endianness=function(){return"LE"},e.hostname=function(){return"undefined"!=typeof location?location.hostname:""},e.loadavg=function(){return[]},e.uptime=function(){return 0},e.freemem=function(){return Number.MAX_VALUE},e.totalmem=function(){return Number.MAX_VALUE},e.cpus=function(){return[]},e.type=function(){return"Browser"},e.release=function(){return"undefined"!=typeof navigator?navigator.appVersion:""},e.networkInterfaces=e.getNetworkInterfaces=function(){return{}},e.arch=function(){return"javascript"},e.platform=function(){return"browser"},e.tmpdir=e.tmpDir=function(){return"/tmp"},e.EOL="\n"},function(t,e,n){"use strict";var r=function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")},i=n(5),u=i.isObject,o=i.isString,a=function(){function t(e,n){var i=void 0===arguments[2]?{}:arguments[2];r(this,t),this.key=e,this.value=n,this._options=i,this._options.ignoreCase=this._options.ignoreCase||!1}return t.prototype.has=function(e){return t.isEnumItem(e)?0!=(this.value&e.value):o(e)?this._options.ignoreCase?this.key.toLowerCase().indexOf(e.toLowerCase())>=0:this.key.indexOf(e)>=0:0!=(this.value&e)},t.prototype.is=function(e){return t.isEnumItem(e)?this.key===e.key:o(e)?this._options.ignoreCase?this.key.toLowerCase()===e.toLowerCase():this.key===e:this.value===e},t.prototype.toString=function(){return this.key},t.prototype.toJSON=function(){return this.key},t.prototype.valueOf=function(){return this.value},t.isEnumItem=function(e){return e instanceof t||u(e)&&void 0!==e.key&&void 0!==e.value},t}();t.exports=a},function(t,e,n){"use strict";e.__esModule=!0;var r=Array.prototype.indexOf||function(t,e){void 0===e&&(e=0),e<0&&(e+=this.length),e<0&&(e=0);for(var n=this.length;e<n;e++)if(e in this&&this[e]===t)return e;return-1};e.indexOf=r},function(t,e){function n(t){return!!t.constructor&&"function"==typeof t.constructor.isBuffer&&t.constructor.isBuffer(t)}function r(t){return"function"==typeof t.readFloatLE&&"function"==typeof t.slice&&n(t.slice(0,0))}t.exports=function(t){return null!=t&&(n(t)||r(t)||!!t._isBuffer)}}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["CardGame"] = factory();
+	else
+		root["CardGame"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports._getSuit = _getSuit;
+exports._getNumber = _getNumber;
+exports._getConfig = _getConfig;
+exports._getIndex = _getIndex;
+exports._setParent = _setParent;
+
+var _CardSet = __webpack_require__(1);
+
+var _CardSet2 = _interopRequireDefault(_CardSet);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _suit = new WeakMap();
+var _number = new WeakMap();
+var _parent = new WeakMap();
+var _deck = new WeakMap();
+var _config = new WeakMap();
+
+function _getSuit() {
+	return _suit.get(this);
+}
+
+function _getNumber() {
+	return _number.get(this);
+}
+
+function _getConfig() {
+	return _config.get(this);
+}
+
+function _getIndex() {
+	return _getSuit.call(this).value.index * _getConfig.call(this).numbers.length + _getNumber.call(this).value.index;
+}
+
+function _setParent(newParent) {
+	if (!newParent || !(newParent instanceof _CardSet2.default) && !(newParent.constructor instanceof _CardSet2.default)) {
+		throw new Error('parent of Card can only be an instance of CardSet');
+	}
+
+	if (this.parent) {
+		this.parent.remove(this);
+	}
+
+	_parent.set(this, newParent);
+}
+
+function _getNumberIndex() {
+	return _getNumber.call(this).value.index;
+}
+
+function _getSuitName() {
+	return _getSuit.call(this).key;
+}
+
+function _getNumberName() {
+	return _getNumber.call(this).key;
+}
+
+function _getSuitGroup() {
+	return _getSuit.call(this).value;
+}
+
+function _getDeck() {
+	return _deck.get(this);
+}
+
+function _emit() {
+	var _ref;
+
+	(_ref = _getConfig.call(this)).emit.apply(_ref, arguments);
+}
+
+var Card = function () {
+	_createClass(Card, [{
+		key: 'parent',
+		get: function get() {
+			return _parent.get(this);
+		}
+	}, {
+		key: 'deck',
+		get: function get() {
+			return _deck.get(this);
+		}
+	}], [{
+		key: 'compare',
+		value: function compare(a, b, fn) {
+			return fn({
+				sameSuit: _getSuitName.call(a) === _getSuitName.call(b),
+				sameSuitGroup: _getSuitGroup.call(a) === _getSuitGroup.call(b),
+				sameNumber: _getNumberName.call(a) === _getNumberName.call(a),
+				numberDiff: _getNumberIndex.call(a) - _getNumberIndex.call(b)
+			});
+		}
+	}]);
+
+	function Card(suit, number, deck, config) {
+		_classCallCheck(this, Card);
+
+		_suit.set(this, config.suits.get(suit));
+		_number.set(this, config.numbers.get(number));
+		_deck.set(this, deck);
+		_config.set(this, config);
+
+		_emit.call(this, 'card:create', this);
+	}
+
+	_createClass(Card, [{
+		key: 'isSameSuit',
+		value: function isSameSuit(card) {
+			return Card.compare(this, card, function (_ref2) {
+				var sameSuit = _ref2.sameSuit;
+				return sameSuit;
+			});
+		}
+	}, {
+		key: 'isSameSuitGroup',
+		value: function isSameSuitGroup(card) {
+			return Card.compare(this, card, function (_ref3) {
+				var sameSuitGroup = _ref3.sameSuitGroup;
+				return sameSuitGroup;
+			});
+		}
+	}, {
+		key: 'isDiff',
+		value: function isDiff(card, _diff) {
+			if (typeof _diff === 'number') {
+				_diff = function diff(numberDiff) {
+					return numberDiff === _diff;
+				};
+			}
+
+			return Card.compare(this, card, function (_ref4) {
+				var numberDiff = _ref4.numberDiff;
+				return _diff(numberDiff);
+			});
+		}
+	}, {
+		key: 'isSameNumber',
+		value: function isSameNumber(card) {
+			return this.isDiff(card, 0);
+		}
+	}, {
+		key: 'isGreaterThan',
+		value: function isGreaterThan(card) {
+			return this.isDiff(card, function (diff) {
+				return diff > 0;
+			});
+		}
+	}, {
+		key: 'isLessThan',
+		value: function isLessThan(card) {
+			return this.isDiff(card, function (diff) {
+				return diff < 0;
+			});
+		}
+	}, {
+		key: 'isPlusOne',
+		value: function isPlusOne(card) {
+			return this.isDiff(card, 1);
+		}
+	}, {
+		key: 'isMinusOne',
+		value: function isMinusOne(card) {
+			return this.isDiff(card, -1);
+		}
+	}]);
+
+	return Card;
+}();
+
+exports.default = Card;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports._emit = _emit;
+
+var _Card = __webpack_require__(0);
+
+var _Card2 = _interopRequireDefault(_Card);
+
+var _tinyEmitter = __webpack_require__(2);
+
+var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _cards = new WeakMap();
+var _events = new WeakMap();
+var _config = new WeakMap();
+
+function _getCards() {
+	return _cards.get(this);
+}
+
+function _getEvents() {
+	return _events.get(this);
+}
+
+function _getConfig() {
+	return _config.get(this);
+}
+
+function _emit(type) {
+	var _ref, _ref2;
+
+	for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+		args[_key - 1] = arguments[_key];
+	}
+
+	(_ref = _getEvents.call(this)).emit.apply(_ref, [type, this].concat(args));
+	(_ref2 = _getConfig.call(this)).emit.apply(_ref2, ['cardSet:' + type, this].concat(args));
+}
+
+function _logCards() {
+	if (!_getConfig.call(this).logging) {
+		return;
+	}
+
+	console.log(_getCards.call(this).map(function (card) {
+		return {
+			suit: _Card._getSuit.call(card).key,
+			group: _Card._getSuit.call(card).value.group,
+			number: _Card._getNumber.call(card).key,
+			index: _Card._getNumber.call(card).value.index,
+			value: _Card._getNumber.call(card).value.value,
+			deckIndex: _Card._getIndex.call(card)
+		};
+	}));
+}
+
+var CardSet = function () {
+	_createClass(CardSet, [{
+		key: 'topCard',
+		get: function get() {
+			var cards = _getCards.call(this);
+			return cards[cards.length];
+		}
+	}, {
+		key: 'length',
+		get: function get() {
+			return _getCards.call(this).length;
+		}
+	}]);
+
+	function CardSet(cards, config) {
+		_classCallCheck(this, CardSet);
+
+		_config.set(this, config);
+		_events.set(this, new _tinyEmitter2.default());
+		_cards.set(this, []);
+
+		if (Array.isArray(cards)) {
+			this.add(cards);
+		}
+	}
+
+	_createClass(CardSet, [{
+		key: 'add',
+		value: function add(newCards) {
+			var _this = this;
+
+			if (newCards instanceof _Card2.default) {
+				newCards = [newCards];
+			}
+
+			newCards.forEach(function (card) {
+				if (card instanceof _Card2.default) {
+					_getCards.call(_this).push(card);
+					_Card._setParent.call(card, _this);
+
+					_emit.call(_this, 'addCard', card);
+				}
+			});
+
+			return this;
+		}
+	}, {
+		key: 'remove',
+		value: function remove(card) {
+			_getCards.call(this).splice(_getCards.call(this).indexOf(card), 1);
+
+			_emit.call(this, 'removeCard', card);
+
+			return this;
+		}
+	}, {
+		key: 'drop',
+		value: function drop(newCards) {
+			var _this2 = this;
+
+			if (!Array.isArray(newCards)) {
+				newCards = [newCards];
+			}
+
+			newCards.forEach(function (card) {
+				if (card instanceof _Card2.default && !_this2.canDrop || _this2.canDrop(card) !== false) {
+					_this2.add(card);
+					_emit.call(_this2, 'dropCard', card);
+				} else {
+					_emit.call(_this2, 'rejectCard', card);
+				}
+			});
+
+			return this;
+		}
+	}, {
+		key: 'shuffle',
+		value: function shuffle() {
+			var tmp = void 0,
+			    current = void 0;
+			var top = _getCards.call(this).length;
+
+			if (top) while (--top) {
+				current = Math.floor(Math.random() * (top + 1));
+				tmp = _getCards.call(this)[current];
+				_getCards.call(this)[current] = _getCards.call(this)[top];
+				_getCards.call(this)[top] = tmp;
+			}
+
+			_emit.call(this, 'shuffle', this);
+
+			_logCards.call(this);
+
+			return this;
+		}
+	}, {
+		key: 'sort',
+		value: function sort() {
+			_getCards.call(this).sort(function (a, b) {
+				return _Card._getIndex.call(a) - _Card._getIndex.call(b);
+			});
+
+			_emit.call(this, 'sort', this);
+
+			_logCards.call(this);
+
+			return this;
+		}
+	}, {
+		key: 'draw',
+		value: function draw(count) {
+			var cards = _getCards.call(this).slice(-count);
+
+			_emit.call(this, 'drawCards', this, cards);
+
+			return cards;
+		}
+	}, {
+		key: 'each',
+		value: function each(fn) {
+			_getCards.call(this).forEach(function (card, i) {
+				fn(card, i, _Card._getSuit.call(card), _Card._getNumber.call(card));
+			});
+		}
+	}, {
+		key: 'map',
+		value: function map(fn) {
+			return _getCards.call(this).map(function (card, i) {
+				return fn(card, i, _Card._getSuit.call(card), _Card._getNumber.call(card));
+			});
+		}
+	}, {
+		key: 'on',
+		value: function on() {
+			var _ref3;
+
+			(_ref3 = _getEvents.call(this)).on.apply(_ref3, arguments);
+
+			return this;
+		}
+	}, {
+		key: 'one',
+		value: function one() {
+			var _ref4;
+
+			(_ref4 = _getEvents.call(this)).one.apply(_ref4, arguments);
+
+			return this;
+		}
+	}, {
+		key: 'off',
+		value: function off() {
+			var _ref5;
+
+			(_ref5 = _getEvents.call(this)).off.apply(_ref5, arguments);
+
+			return this;
+		}
+	}]);
+
+	return CardSet;
+}();
+
+exports.default = CardSet;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+function E () {
+  // Keep this empty so it's easier to inherit from
+  // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
+}
+
+E.prototype = {
+  on: function (name, callback, ctx) {
+    var e = this.e || (this.e = {});
+
+    (e[name] || (e[name] = [])).push({
+      fn: callback,
+      ctx: ctx
+    });
+
+    return this;
+  },
+
+  once: function (name, callback, ctx) {
+    var self = this;
+    function listener () {
+      self.off(name, listener);
+      callback.apply(ctx, arguments);
+    };
+
+    listener._ = callback
+    return this.on(name, listener, ctx);
+  },
+
+  emit: function (name) {
+    var data = [].slice.call(arguments, 1);
+    var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
+    var i = 0;
+    var len = evtArr.length;
+
+    for (i; i < len; i++) {
+      evtArr[i].fn.apply(evtArr[i].ctx, data);
+    }
+
+    return this;
+  },
+
+  off: function (name, callback) {
+    var e = this.e || (this.e = {});
+    var evts = e[name];
+    var liveEvents = [];
+
+    if (evts && callback) {
+      for (var i = 0, len = evts.length; i < len; i++) {
+        if (evts[i].fn !== callback && evts[i].fn._ !== callback)
+          liveEvents.push(evts[i]);
+      }
+    }
+
+    // Remove event from queue to prevent memory leak
+    // Suggested by https://github.com/lazd
+    // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
+
+    (liveEvents.length)
+      ? e[name] = liveEvents
+      : delete e[name];
+
+    return this;
+  }
+};
+
+module.exports = E;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Card = __webpack_require__(0);
+
+var _Card2 = _interopRequireDefault(_Card);
+
+var _CardSet2 = __webpack_require__(1);
+
+var _CardSet3 = _interopRequireDefault(_CardSet2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _config = new WeakMap();
+var _player = new WeakMap();
+
+function _getConfig() {
+	return _config.get(this);
+}
+
+var Deck = function (_CardSet) {
+	_inherits(Deck, _CardSet);
+
+	_createClass(Deck, [{
+		key: 'suits',
+		get: function get() {
+			return _getConfig.call(this).suits;
+		}
+	}, {
+		key: 'numbers',
+		get: function get() {
+			return _getConfig.call(this).numbers;
+		}
+	}, {
+		key: 'player',
+		get: function get() {
+			return _player.get(this);
+		}
+	}]);
+
+	function Deck(config, player) {
+		_classCallCheck(this, Deck);
+
+		var _this = _possibleConstructorReturn(this, (Deck.__proto__ || Object.getPrototypeOf(Deck)).call(this, null, config));
+
+		_config.set(_this, config);
+		_player.set(_this, player);
+
+		config.suits.each(function (suit) {
+			config.numbers.each(function (number) {
+				_this.add(new _Card2.default(suit, number, _this, config));
+			});
+		});
+
+		_CardSet2._emit.call(_this, 'deck:create', _this);
+		return _this;
+	}
+
+	_createClass(Deck, [{
+		key: 'canDrop',
+		value: function canDrop() {
+			return false;
+		}
+	}]);
+
+	return Deck;
+}(_CardSet3.default);
+
+exports.default = Deck;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Deck = __webpack_require__(3);
+
+var _Deck2 = _interopRequireDefault(_Deck);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _name = new WeakMap();
+var _config = new WeakMap();
+var _deck = new WeakMap();
+var _score = new WeakMap();
+
+function _emit() {
+	var _config$get;
+
+	(_config$get = _config.get(this)).emit.apply(_config$get, arguments);
+}
+
+function _getConfig() {
+	return _config.get(this);
+}
+
+var Player = function () {
+	_createClass(Player, [{
+		key: 'name',
+		get: function get() {
+			return _name.get(this);
+		}
+	}, {
+		key: 'deck',
+		get: function get() {
+			return _deck.get(this);
+		}
+	}, {
+		key: 'score',
+		get: function get() {
+			return _score.get(this);
+		}
+	}]);
+
+	function Player(name, config) {
+		_classCallCheck(this, Player);
+
+		_name.set(this, name);
+		_config.set(this, config);
+		_deck.set(this, new _Deck2.default(config, this));
+
+		this.resetScore();
+
+		_emit.call(this, 'player:create', this);
+	}
+
+	_createClass(Player, [{
+		key: 'addScore',
+		value: function addScore(num) {
+			var oldScore = this.score;
+			_score.set(this, oldScore + num);
+
+			_emit.call(this, 'player:addScore', this, oldScore, this.score);
+
+			return this;
+		}
+	}, {
+		key: 'resetScore',
+		value: function resetScore() {
+			_score.set(this, _getConfig.call(this).initialScore);
+
+			_emit.call(this, 'player:resetScore', this);
+
+			return this;
+		}
+	}]);
+
+	return Player;
+}();
+
+exports.default = Player;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+var isType = function (type, value) {
+  return typeof value === type;
+};
+exports.isType = isType;
+var isObject = function (value) {
+  return isType("object", value);
+};
+exports.isObject = isObject;
+var isString = function (value) {
+  return isType("string", value);
+};
+exports.isString = isString;
+var isNumber = function (value) {
+  return isType("number", value);
+};
+exports.isNumber = isNumber;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Card = __webpack_require__(0);
+
+var _Card2 = _interopRequireDefault(_Card);
+
+var _CardSet = __webpack_require__(1);
+
+var _CardSet2 = _interopRequireDefault(_CardSet);
+
+var _Deck = __webpack_require__(3);
+
+var _Deck2 = _interopRequireDefault(_Deck);
+
+var _Player = __webpack_require__(4);
+
+var _Player2 = _interopRequireDefault(_Player);
+
+var _Round = __webpack_require__(7);
+
+var _Round2 = _interopRequireDefault(_Round);
+
+var _Config = __webpack_require__(8);
+
+var _Config2 = _interopRequireDefault(_Config);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _config = new WeakMap();
+var _rounds = new WeakMap();
+
+function _getConfig() {
+	return _config.get(this);
+}
+
+function _getRounds() {
+	return _rounds.get(this);
+}
+
+var CardGame = function () {
+	_createClass(CardGame, [{
+		key: 'currentRound',
+		get: function get() {
+			return _getRounds.call(this).slice(-1)[0];
+		}
+	}], [{
+		key: 'Config',
+		get: function get() {
+			return _Config2.default;
+		}
+	}, {
+		key: 'Card',
+		get: function get() {
+			return _Card2.default;
+		}
+	}, {
+		key: 'CardSet',
+		get: function get() {
+			return _CardSet2.default;
+		}
+	}, {
+		key: 'Deck',
+		get: function get() {
+			return _Deck2.default;
+		}
+	}, {
+		key: 'Player',
+		get: function get() {
+			return _Player2.default;
+		}
+	}, {
+		key: 'Round',
+		get: function get() {
+			return _Round2.default;
+		}
+	}]);
+
+	function CardGame(config, players) {
+		_classCallCheck(this, CardGame);
+
+		config = config || {};
+
+		if (!(config instanceof _Config2.default)) {
+			config = new _Config2.default(config);
+		}
+
+		_config.set(this, config);
+
+		_rounds.set(this, [new _Round2.default(config)]);
+
+		this.addPlayers(players);
+	}
+
+	_createClass(CardGame, [{
+		key: 'enableLogging',
+		value: function enableLogging() {
+			_config.get(this).logging = true;
+
+			return this;
+		}
+	}, {
+		key: 'addPlayer',
+		value: function addPlayer(player) {
+			if (player && typeof player === 'string') {
+				player = new _Player2.default(player, _getConfig.call(this));
+			}
+
+			this.currentRound.addPlayer(player);
+
+			return this;
+		}
+	}, {
+		key: 'addPlayers',
+		value: function addPlayers(players) {
+			if (!Array.isArray(players)) {
+				players = [players];
+			}
+
+			players.forEach(this.addPlayer.bind(this));
+
+			return this;
+		}
+	}, {
+		key: 'startRound',
+		value: function startRound() {
+			this.currentRound.start();
+
+			return this;
+		}
+	}, {
+		key: 'finishRound',
+		value: function finishRound() {
+			this.currentRound.finish();
+
+			return this;
+		}
+	}, {
+		key: 'newRound',
+		value: function newRound(players) {
+			players = this.currentRound.mapPlayers(function (player) {
+				return player;
+			}).concat(players || []);
+
+			_getRounds.call(this).push(new _Round2.default(_getConfig.call(this)).addPlayers(players));
+
+			return this;
+		}
+	}, {
+		key: 'on',
+		value: function on() {
+			var _ref;
+
+			(_ref = _getConfig.call(this)).on.apply(_ref, arguments);
+
+			return this;
+		}
+	}, {
+		key: 'once',
+		value: function once() {
+			var _ref2;
+
+			(_ref2 = _getConfig.call(this)).once.apply(_ref2, arguments);
+
+			return this;
+		}
+	}, {
+		key: 'off',
+		value: function off() {
+			var _ref3;
+
+			(_ref3 = _getConfig.call(this)).off.apply(_ref3, arguments);
+
+			return this;
+		}
+	}]);
+
+	return CardGame;
+}();
+
+/*** EXPORTS FROM exports-loader ***/
+
+
+exports.default = CardGame;
+module.exports = CardGame;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Player = __webpack_require__(4);
+
+var _Player2 = _interopRequireDefault(_Player);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _config = new WeakMap();
+var _players = new WeakMap();
+
+function _getPlayers() {
+	return _players.get(this);
+}
+
+function _emit() {
+	var _config$get;
+
+	(_config$get = _config.get(this)).emit.apply(_config$get, arguments);
+}
+
+var Round = function () {
+	function Round(config) {
+		_classCallCheck(this, Round);
+
+		_config.set(this, config);
+		_players.set(this, []);
+
+		_emit.call(this, 'round:create', this);
+	}
+
+	_createClass(Round, [{
+		key: 'addPlayer',
+		value: function addPlayer(player) {
+			if (player instanceof _Player2.default && _getPlayers.call(this).indexOf(player) < 0) {
+				_getPlayers.call(this).push(player);
+				_emit.call(this, 'round:addPlayer', this, player);
+			}
+
+			return this;
+		}
+	}, {
+		key: 'addPlayers',
+		value: function addPlayers(players) {
+			var _this = this;
+
+			players.forEach(function (player) {
+				return _this.addPlayer(player);
+			});
+
+			return this;
+		}
+	}, {
+		key: 'start',
+		value: function start() {
+			this.eachPlayer(function (player) {
+				player.deck.shuffle();
+				player.resetScore();
+			});
+
+			_emit.call(this, 'round:start', this);
+			return this;
+		}
+	}, {
+		key: 'finish',
+		value: function finish() {
+
+			_emit.call(this, 'round:finish', this);
+			return this;
+		}
+	}, {
+		key: 'eachPlayer',
+		value: function eachPlayer(fn) {
+			_getPlayers.call(this).forEach(fn);
+
+			return this;
+		}
+	}, {
+		key: 'mapPlayers',
+		value: function mapPlayers(fn) {
+			return _getPlayers.call(this).map(fn);
+		}
+	}]);
+
+	return Round;
+}();
+
+exports.default = Round;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _enum = __webpack_require__(9);
+
+var _enum2 = _interopRequireDefault(_enum);
+
+var _tinyEmitter = __webpack_require__(2);
+
+var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var NUMBERS = ['ZERO', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN', 'TWENTY'];
+
+var STANDARD_SUITS = { RED: ['HEARTS', 'DIAMONDS'], BLACK: ['CLUBS', 'SPADES'] };
+var STANDARD_NUMBERS = ['ACE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'JACK', 'QUEEN', 'KING'];
+
+function constantCase(str) {
+	return str.trim().replace(/\s+/g, '_').toUpperCase();
+}
+
+function makeRange(max) {
+	return [].concat(_toConsumableArray(Array(max))).map(function (val, n) {
+		return NUMBERS[++n];
+	});
+}
+
+var SuitEnum = function (_Enum) {
+	_inherits(SuitEnum, _Enum);
+
+	_createClass(SuitEnum, [{
+		key: 'length',
+		get: function get() {
+			return this.enums.length;
+		}
+	}]);
+
+	function SuitEnum(suits) {
+		_classCallCheck(this, SuitEnum);
+
+		var groups = {};
+		var suitMap = {};
+
+		if (!Array.isArray(suits)) {
+			var flatSuits = [];
+			var groupNames = Object.keys(suits);
+
+			groupNames.forEach(function (name) {
+				flatSuits = [].concat(_toConsumableArray(flatSuits), _toConsumableArray(suits[name]));
+				suits[name].forEach(function (suit) {
+					groups[suit] = name;
+				});
+			});
+
+			suits = flatSuits;
+		}
+
+		suits.forEach(function (suit, i) {
+			suitMap[constantCase(suit)] = {
+				index: i,
+				group: constantCase(groups[suit] || constantCase(suit))
+			};
+		});
+
+		return _possibleConstructorReturn(this, (SuitEnum.__proto__ || Object.getPrototypeOf(SuitEnum)).call(this, suitMap));
+	}
+
+	_createClass(SuitEnum, [{
+		key: 'each',
+		value: function each(fn) {
+			this.enums.forEach(function (suit) {
+				return fn(suit.key);
+			});
+		}
+	}]);
+
+	return SuitEnum;
+}(_enum2.default);
+
+var NumberEnum = function (_Enum2) {
+	_inherits(NumberEnum, _Enum2);
+
+	_createClass(NumberEnum, [{
+		key: 'length',
+		get: function get() {
+			return this.enums.length;
+		}
+	}]);
+
+	function NumberEnum(numbers) {
+		_classCallCheck(this, NumberEnum);
+
+		if (typeof numbers === 'number') {
+			numbers = makeRange(numbers);
+		}
+
+		var values = {};
+		var numberMap = {};
+
+		if (!Array.isArray(numbers)) {
+			var _values = numbers;
+			numbers = Object.keys(numbers);
+		}
+
+		numbers.forEach(function (number, i) {
+			numberMap[constantCase(number)] = {
+				index: i,
+				value: values[number] || i + 1
+			};
+		});
+
+		return _possibleConstructorReturn(this, (NumberEnum.__proto__ || Object.getPrototypeOf(NumberEnum)).call(this, numberMap));
+	}
+
+	_createClass(NumberEnum, [{
+		key: 'each',
+		value: function each(fn) {
+			this.enums.forEach(function (number) {
+				return fn(number.key);
+			});
+		}
+	}]);
+
+	return NumberEnum;
+}(_enum2.default);
+
+var _suits = new WeakMap();
+var _numbers = new WeakMap();
+var _initialScore = new WeakMap();
+var _events = new WeakMap();
+var _logging = new WeakMap();
+
+function _getEvents() {
+	return _events.get(this);
+}
+
+var Config = function () {
+	_createClass(Config, [{
+		key: 'suits',
+		get: function get() {
+			return _suits.get(this);
+		}
+	}, {
+		key: 'numbers',
+		get: function get() {
+			return _numbers.get(this);
+		}
+	}, {
+		key: 'initialScore',
+		get: function get() {
+			return _initialScore.get(this);
+		}
+	}, {
+		key: 'logging',
+		get: function get() {
+			return _logging.get(this);
+		},
+		set: function set(val) {
+			_logging.set(this, !!val);
+		}
+	}]);
+
+	function Config() {
+		var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+		    _ref$suits = _ref.suits,
+		    suits = _ref$suits === undefined ? STANDARD_SUITS : _ref$suits,
+		    _ref$numbers = _ref.numbers,
+		    numbers = _ref$numbers === undefined ? STANDARD_NUMBERS : _ref$numbers,
+		    _ref$initialScore = _ref.initialScore,
+		    initialScore = _ref$initialScore === undefined ? 0 : _ref$initialScore;
+
+		_classCallCheck(this, Config);
+
+		_suits.set(this, new SuitEnum(suits));
+		_numbers.set(this, new NumberEnum(numbers));
+		_initialScore.set(this, initialScore);
+		_events.set(this, new _tinyEmitter2.default());
+		_logging.set(this, false);
+	}
+
+	_createClass(Config, [{
+		key: 'on',
+		value: function on() {
+			var _ref2;
+
+			(_ref2 = _getEvents.call(this)).on.apply(_ref2, arguments);
+
+			return this;
+		}
+	}, {
+		key: 'once',
+		value: function once() {
+			var _ref3;
+
+			(_ref3 = _getEvents.call(this)).once.apply(_ref3, arguments);
+
+			return this;
+		}
+	}, {
+		key: 'off',
+		value: function off() {
+			var _ref4;
+
+			(_ref4 = _getEvents.call(this)).off.apply(_ref4, arguments);
+
+			return this;
+		}
+	}, {
+		key: 'emit',
+		value: function emit() {
+			var _ref5;
+
+			(_ref5 = _getEvents.call(this)).emit.apply(_ref5, arguments);
+
+			return this;
+		}
+	}]);
+
+	return Config;
+}();
+
+exports.default = Config;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(10);
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+var os = _interopRequire(__webpack_require__(12));
+
+var EnumItem = _interopRequire(__webpack_require__(13));
+
+var _isType = __webpack_require__(5);
+
+var isString = _isType.isString;
+var isNumber = _isType.isNumber;
+
+var indexOf = __webpack_require__(14).indexOf;
+
+var isBuffer = _interopRequire(__webpack_require__(15));
+
+var endianness = os.endianness();
+
+/**
+ * Represents an Enum with enum items.
+ * @param {Array || Object}  map     This are the enum items.
+ * @param {String || Object} options This are options. [optional]
+ */
+
+var Enum = (function () {
+  function Enum(map, options) {
+    var _this = this;
+
+    _classCallCheck(this, Enum);
+
+    /* implement the "ref type interface", so that Enum types can
+     * be used in `node-ffi` function declarations and invokations.
+     * In C, these Enums act as `uint32_t` types.
+     *
+     * https://github.com/TooTallNate/ref#the-type-interface
+     */
+    this.size = 4;
+    this.indirection = 1;
+
+    if (options && isString(options)) {
+      options = { name: options };
+    }
+
+    this._options = options || {};
+    this._options.separator = this._options.separator || " | ";
+    this._options.endianness = this._options.endianness || endianness;
+    this._options.ignoreCase = this._options.ignoreCase || false;
+    this._options.freez = this._options.freez || false;
+
+    this.enums = [];
+
+    if (map.length) {
+      this._enumLastIndex = map.length;
+      var array = map;
+      map = {};
+
+      for (var i = 0; i < array.length; i++) {
+        map[array[i]] = Math.pow(2, i);
+      }
+    }
+
+    for (var member in map) {
+      guardReservedKeys(this._options.name, member);
+      this[member] = new EnumItem(member, map[member], { ignoreCase: this._options.ignoreCase });
+      this.enums.push(this[member]);
+    }
+    this._enumMap = map;
+
+    if (this._options.ignoreCase) {
+      this.getLowerCaseEnums = function () {
+        var res = {};
+        for (var i = 0, len = this.enums.length; i < len; i++) {
+          res[this.enums[i].key.toLowerCase()] = this.enums[i];
+        }
+        return res;
+      };
+    }
+
+    if (this._options.name) {
+      this.name = this._options.name;
+    }
+
+    var isFlaggable = function () {
+      for (var i = 0, len = _this.enums.length; i < len; i++) {
+        var e = _this.enums[i];
+
+        if (!(e.value !== 0 && !(e.value & e.value - 1))) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    this.isFlaggable = isFlaggable();
+    if (this._options.freez) {
+      this.freezeEnums(); //this will make instances of Enum non-extensible
+    }
+  }
+
+  /**
+   * Returns the appropriate EnumItem key.
+   * @param  {EnumItem || String || Number} key The object to get with.
+   * @return {String}                           The get result.
+   */
+
+  Enum.prototype.getKey = function getKey(value) {
+    var item = this.get(value);
+    if (item) {
+      return item.key;
+    }
+  };
+
+  /**
+   * Returns the appropriate EnumItem value.
+   * @param  {EnumItem || String || Number} key The object to get with.
+   * @return {Number}                           The get result.
+   */
+
+  Enum.prototype.getValue = function getValue(key) {
+    var item = this.get(key);
+    if (item) {
+      return item.value;
+    }
+  };
+
+  /**
+   * Returns the appropriate EnumItem.
+   * @param  {EnumItem || String || Number} key The object to get with.
+   * @return {EnumItem}                         The get result.
+   */
+
+  Enum.prototype.get = function get(key, offset) {
+    if (key === null || key === undefined) {
+      return;
+    } // Buffer instance support, part of the ref Type interface
+    if (isBuffer(key)) {
+      key = key["readUInt32" + this._options.endianness](offset || 0);
+    }
+
+    if (EnumItem.isEnumItem(key)) {
+      var foundIndex = indexOf.call(this.enums, key);
+      if (foundIndex >= 0) {
+        return key;
+      }
+      if (!this.isFlaggable || this.isFlaggable && key.key.indexOf(this._options.separator) < 0) {
+        return;
+      }
+      return this.get(key.key);
+    } else if (isString(key)) {
+
+      var enums = this;
+      if (this._options.ignoreCase) {
+        enums = this.getLowerCaseEnums();
+        key = key.toLowerCase();
+      }
+
+      if (key.indexOf(this._options.separator) > 0) {
+        var parts = key.split(this._options.separator);
+
+        var value = 0;
+        for (var i = 0; i < parts.length; i++) {
+          var part = parts[i];
+
+          value |= enums[part].value;
+        }
+
+        return new EnumItem(key, value);
+      } else {
+        return enums[key];
+      }
+    } else {
+      for (var m in this) {
+        if (this.hasOwnProperty(m)) {
+          if (this[m].value === key) {
+            return this[m];
+          }
+        }
+      }
+
+      var result = null;
+
+      if (this.isFlaggable) {
+        for (var n in this) {
+          if (this.hasOwnProperty(n)) {
+            if ((key & this[n].value) !== 0) {
+              if (result) {
+                result += this._options.separator;
+              } else {
+                result = "";
+              }
+              result += n;
+            }
+          }
+        }
+      }
+
+      return this.get(result || null);
+    }
+  };
+
+  /**
+   * Sets the Enum "value" onto the give `buffer` at the specified `offset`.
+   * Part of the ref "Type interface".
+   *
+   * @param  {Buffer} buffer The Buffer instance to write to.
+   * @param  {Number} offset The offset in the buffer to write to. Default 0.
+   * @param  {EnumItem || String || Number} value The EnumItem to write.
+   */
+
+  Enum.prototype.set = function set(buffer, offset, value) {
+    var item = this.get(value);
+    if (item) {
+      return buffer["writeUInt32" + this._options.endianness](item.value, offset || 0);
+    }
+  };
+
+  /**
+   * Define freezeEnums() as a property of the prototype.
+   * make enumerable items nonconfigurable and deep freeze the properties. Throw Error on property setter.
+   */
+
+  Enum.prototype.freezeEnums = function freezeEnums() {
+    function envSupportsFreezing() {
+      return Object.isFrozen && Object.isSealed && Object.getOwnPropertyNames && Object.getOwnPropertyDescriptor && Object.defineProperties && Object.__defineGetter__ && Object.__defineSetter__;
+    }
+
+    function freezer(o) {
+      var props = Object.getOwnPropertyNames(o);
+      props.forEach(function (p) {
+        if (!Object.getOwnPropertyDescriptor(o, p).configurable) {
+          return;
+        }
+
+        Object.defineProperties(o, p, { writable: false, configurable: false });
+      });
+      return o;
+    }
+
+    function getPropertyValue(value) {
+      return value;
+    }
+
+    function deepFreezeEnums(o) {
+      if (typeof o !== "object" || o === null || Object.isFrozen(o) || Object.isSealed(o)) {
+        return;
+      }
+      for (var key in o) {
+        if (o.hasOwnProperty(key)) {
+          o.__defineGetter__(key, getPropertyValue.bind(null, o[key]));
+          o.__defineSetter__(key, function throwPropertySetError(value) {
+            throw TypeError("Cannot redefine property; Enum Type is not extensible.");
+          });
+          deepFreezeEnums(o[key]);
+        }
+      }
+      if (Object.freeze) {
+        Object.freeze(o);
+      } else {
+        freezer(o);
+      }
+    }
+
+    if (envSupportsFreezing()) {
+      deepFreezeEnums(this);
+    }
+
+    return this;
+  };
+
+  /**
+   * Return true whether the enumItem parameter passed in is an EnumItem object and 
+   * has been included as constant of this Enum   
+   * @param  {EnumItem} enumItem
+   */
+
+  Enum.prototype.isDefined = function isDefined(enumItem) {
+    var condition = function (e) {
+      return e === enumItem;
+    };
+    if (isString(enumItem) || isNumber(enumItem)) {
+      condition = function (e) {
+        return e.is(enumItem);
+      };
+    }
+    return this.enums.some(condition);
+  };
+
+  /**
+   * Returns JSON object representation of this Enum.
+   * @return {String} JSON object representation of this Enum.
+   */
+
+  Enum.prototype.toJSON = function toJSON() {
+    return this._enumMap;
+  };
+
+  /**
+   * Extends the existing Enum with a New Map.
+   * @param  {Array}  map  Map to extend from
+   */
+
+  Enum.prototype.extend = function extend(map) {
+    if (map.length) {
+      var array = map;
+      map = {};
+
+      for (var i = 0; i < array.length; i++) {
+        var exponent = this._enumLastIndex + i;
+        map[array[i]] = Math.pow(2, exponent);
+      }
+
+      for (var member in map) {
+        guardReservedKeys(this._options.name, member);
+        this[member] = new EnumItem(member, map[member], { ignoreCase: this._options.ignoreCase });
+        this.enums.push(this[member]);
+      }
+
+      for (var key in this._enumMap) {
+        map[key] = this._enumMap[key];
+      }
+
+      this._enumLastIndex += map.length;
+      this._enumMap = map;
+
+      if (this._options.freez) {
+        this.freezeEnums(); //this will make instances of new Enum non-extensible
+      }
+    }
+  };
+
+  /**
+   * Registers the Enum Type globally in node.js.
+   * @param  {String} key Global variable. [optional]
+   */
+
+  Enum.register = function register() {
+    var key = arguments[0] === undefined ? "Enum" : arguments[0];
+
+    if (!global[key]) {
+      global[key] = Enum;
+    }
+  };
+
+  return Enum;
+})();
+
+module.exports = Enum;
+
+// private
+
+var reservedKeys = ["_options", "get", "getKey", "getValue", "enums", "isFlaggable", "_enumMap", "toJSON", "_enumLastIndex"];
+
+function guardReservedKeys(customName, key) {
+  if (customName && key === "name" || indexOf.call(reservedKeys, key) >= 0) {
+    throw new Error("Enum key " + key + " is a reserved word!");
+  }
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+exports.endianness = function () { return 'LE' };
+
+exports.hostname = function () {
+    if (typeof location !== 'undefined') {
+        return location.hostname
+    }
+    else return '';
+};
+
+exports.loadavg = function () { return [] };
+
+exports.uptime = function () { return 0 };
+
+exports.freemem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.totalmem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.cpus = function () { return [] };
+
+exports.type = function () { return 'Browser' };
+
+exports.release = function () {
+    if (typeof navigator !== 'undefined') {
+        return navigator.appVersion;
+    }
+    return '';
+};
+
+exports.networkInterfaces
+= exports.getNetworkInterfaces
+= function () { return {} };
+
+exports.arch = function () { return 'javascript' };
+
+exports.platform = function () { return 'browser' };
+
+exports.tmpdir = exports.tmpDir = function () {
+    return '/tmp';
+};
+
+exports.EOL = '\n';
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+var _isType = __webpack_require__(5);
+
+var isObject = _isType.isObject;
+var isString = _isType.isString;
+
+/**
+ * Represents an Item of an Enum.
+ * @param {String} key   The Enum key.
+ * @param {Number} value The Enum value.
+ */
+
+var EnumItem = (function () {
+
+  /*constructor reference so that, this.constructor===EnumItem//=>true */
+
+  function EnumItem(key, value) {
+    var options = arguments[2] === undefined ? {} : arguments[2];
+
+    _classCallCheck(this, EnumItem);
+
+    this.key = key;
+    this.value = value;
+
+    this._options = options;
+    this._options.ignoreCase = this._options.ignoreCase || false;
+  }
+
+  /**
+   * Checks if the flagged EnumItem has the passing object.
+   * @param  {EnumItem || String || Number} value The object to check with.
+   * @return {Boolean}                            The check result.
+   */
+
+  EnumItem.prototype.has = function has(value) {
+    if (EnumItem.isEnumItem(value)) {
+      return (this.value & value.value) !== 0;
+    } else if (isString(value)) {
+      if (this._options.ignoreCase) {
+        return this.key.toLowerCase().indexOf(value.toLowerCase()) >= 0;
+      }
+      return this.key.indexOf(value) >= 0;
+    } else {
+      return (this.value & value) !== 0;
+    }
+  };
+
+  /**
+   * Checks if the EnumItem is the same as the passing object.
+   * @param  {EnumItem || String || Number} key The object to check with.
+   * @return {Boolean}                          The check result.
+   */
+
+  EnumItem.prototype.is = function is(key) {
+    if (EnumItem.isEnumItem(key)) {
+      return this.key === key.key;
+    } else if (isString(key)) {
+      if (this._options.ignoreCase) {
+        return this.key.toLowerCase() === key.toLowerCase();
+      }
+      return this.key === key;
+    } else {
+      return this.value === key;
+    }
+  };
+
+  /**
+   * Returns String representation of this EnumItem.
+   * @return {String} String representation of this EnumItem.
+   */
+
+  EnumItem.prototype.toString = function toString() {
+    return this.key;
+  };
+
+  /**
+   * Returns JSON object representation of this EnumItem.
+   * @return {String} JSON object representation of this EnumItem.
+   */
+
+  EnumItem.prototype.toJSON = function toJSON() {
+    return this.key;
+  };
+
+  /**
+   * Returns the value to compare with.
+   * @return {String} The value to compare with.
+   */
+
+  EnumItem.prototype.valueOf = function valueOf() {
+    return this.value;
+  };
+
+  EnumItem.isEnumItem = function isEnumItem(value) {
+    return value instanceof EnumItem || isObject(value) && value.key !== undefined && value.value !== undefined;
+  };
+
+  return EnumItem;
+})();
+
+module.exports = EnumItem;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+var indexOf = Array.prototype.indexOf || function (find, i /*opt*/) {
+  if (i === undefined) i = 0;
+  if (i < 0) i += this.length;
+  if (i < 0) i = 0;
+  for (var n = this.length; i < n; i++) if (i in this && this[i] === find) return i;
+  return -1;
+};
+exports.indexOf = indexOf;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+}
+
+function isBuffer (obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+// For Node v0.10 support. Remove this eventually.
+function isSlowBuffer (obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+}
+
+
+/***/ })
+/******/ ]);
+});

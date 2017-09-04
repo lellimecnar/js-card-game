@@ -1,4 +1,4 @@
-import Card, {_getSuit, _getNumber, _setParent} from './Card';
+import Card, {_getSuit, _getNumber, _getIndex, _setParent} from './Card';
 import Emitter from 'tiny-emitter';
 
 const _cards = new WeakMap();
@@ -23,7 +23,18 @@ export function _emit(type, ...args) {
 }
 
 function _logCards() {
-	console.log(this::_getCards().map(card => [card::_getSuit().key, card::_getNumber().key]));
+	if (!this::_getConfig().logging) {
+		return;
+	}
+
+	console.log(this::_getCards().map(card => ({
+		suit: card::_getSuit().key,
+		group: card::_getSuit().value.group,
+		number: card::_getNumber().key,
+		index: card::_getNumber().value.index,
+		value: card::_getNumber().value.value,
+		deckIndex: card::_getIndex(),
+	})));
 }
 
 export default class CardSet {
@@ -112,14 +123,7 @@ export default class CardSet {
 	}
 
 	sort() {
-		const numberLength = this::_getConfig().numbers.length;
-
-		this::_getCards().sort((a, b) => {
-			let aSort = (a::_getSuit().value.index * numberLength) + a::_getNumber().value.index;
-			let bSort = (b::_getSuit().value.index * numberLength) + b::_getNumber().value.index;
-
-			return aSort - bSort;
-		});
+		this::_getCards().sort((a, b) => a::_getIndex() - b::_getIndex());
 
 		this::_emit('sort', this);
 

@@ -14,6 +14,14 @@ export function _getNumber() {
 	return _number.get(this);
 }
 
+export function _getConfig() {
+	return _config.get(this);
+}
+
+export function _getIndex() {
+	return (this::_getSuit().value.index * this::_getConfig().numbers.length) + this::_getNumber().value.index;
+}
+
 export function _setParent(newParent: CardSet) {
 	if (
 		!newParent ||
@@ -51,7 +59,7 @@ function _getDeck() {
 }
 
 function _emit(...args) {
-	_config.get(this).emit(...args);
+	this::_getConfig().emit(...args);
 }
 
 export default class Card {
@@ -116,9 +124,5 @@ export default class Card {
 
 	isMinusOne(card: Card) {
 		return this.isDiff(card, -1);
-	}
-
-	toString() {
-		return `Card {${this::_getSuitName()}, ${this::_getNumberName()}}`;
 	}
 }

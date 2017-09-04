@@ -31,7 +31,7 @@ class SuitEnum extends Enum {
 			groupNames.forEach(name => {
 				flatSuits = [...flatSuits, ...suits[name]];
 				suits[name].forEach(suit => {
-					groups[suit] = groupNames[name];
+					groups[suit] = name;
 				});
 			});
 
@@ -41,7 +41,7 @@ class SuitEnum extends Enum {
 		suits.forEach((suit, i) => {
 			suitMap[constantCase(suit)] = {
 				index: i,
-				group: groups[suit],
+				group: constantCase(groups[suit] || constantCase(suit)),
 			};
 		});
 
@@ -75,7 +75,7 @@ class NumberEnum extends Enum {
 		numbers.forEach((number, i) => {
 			numberMap[constantCase(number)] = {
 				index: i,
-				value: values[number],
+				value: values[number] || i + 1,
 			};
 		});
 
@@ -91,6 +91,7 @@ const _suits = new WeakMap();
 const _numbers = new WeakMap();
 const _initialScore = new WeakMap();
 const _events = new WeakMap();
+const _logging = new WeakMap();
 
 function _getEvents() {
 	return _events.get(this);
@@ -110,6 +111,14 @@ export default class Config {
 		return _initialScore.get(this);
 	}
 
+	get logging() {
+		return _logging.get(this);
+	}
+
+	set logging(val) {
+		_logging.set(this, !!val);
+	}
+
 	constructor({
 		suits = STANDARD_SUITS,
 		numbers = STANDARD_NUMBERS,
@@ -119,6 +128,7 @@ export default class Config {
 		_numbers.set(this, new NumberEnum(numbers));
 		_initialScore.set(this, initialScore);
 		_events.set(this, new Emitter());
+		_logging.set(this, false);
 	}
 
 	on(...args) {
