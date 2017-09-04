@@ -12,6 +12,7 @@ function _emit(...args) {
 }
 
 export default class Round {
+
 	constructor(config) {
 		_config.set(this, config);
 		_players.set(this, []);

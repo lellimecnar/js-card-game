@@ -87,6 +87,7 @@ function _getEvents() {
 }
 
 export default class Config {
+
 	get suits() {
 		return _suits.get(this);
 	}

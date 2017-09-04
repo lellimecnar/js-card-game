@@ -1,9 +1,8 @@
-import Card from '../Card';
-import CardSet from '../CardSet';
-import Deck from '../Deck';
-import Player from '../Player';
-import Round from '../Round';
-
+import Card from './Card';
+import CardSet from './CardSet';
+import Deck from './Deck';
+import Player from './Player';
+import Round from './Round';
 import Config from './Config';
 
 const _config = new WeakMap();

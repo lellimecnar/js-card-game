@@ -19,6 +19,7 @@ function _getEvents() {
 }
 
 export default class CardSet {
+
 	get topCard() {
 		const cards = this::_getCards();
 		return cards[cards.length];

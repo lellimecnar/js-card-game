@@ -1,5 +1,5 @@
-import Card from '../Card';
-import CardSet, {_emit} from '../CardSet';
+import Card from './Card';
+import CardSet, {_emit} from './CardSet';
 
 export default class Deck extends CardSet {
 
