@@ -820,6 +820,16 @@ var CardGame = function () {
 			return _getRounds.call(this).slice(-1)[0];
 		}
 	}], [{
+		key: 'STANDARD',
+		get: function get() {
+			return new _Config2.default('STANDARD');
+		}
+	}, {
+		key: 'ROOK',
+		get: function get() {
+			return new _Config2.default('ROOK');
+		}
+	}, {
 		key: 'Config',
 		get: function get() {
 			return _Config2.default;
@@ -1088,8 +1098,16 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var NUMBERS = ['ZERO', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN', 'TWENTY'];
 
-var STANDARD_SUITS = { RED: ['HEARTS', 'DIAMONDS'], BLACK: ['CLUBS', 'SPADES'] };
-var STANDARD_NUMBERS = ['ACE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'JACK', 'QUEEN', 'KING'];
+var PRESETS = {
+	STANDARD: {
+		suits: { RED: ['HEARTS', 'DIAMONDS'], BLACK: ['CLUBS', 'SPADES'] },
+		numbers: ['ACE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'JACK', 'QUEEN', 'KING']
+	},
+	ROOK: {
+		suits: ['BLACK', 'RED', 'YELLOW', 'GREEN'],
+		numbers: 14
+	}
+};
 
 function constantCase(str) {
 	return str.trim().replace(/\s+/g, '_').toUpperCase();
@@ -1230,14 +1248,21 @@ var Config = function () {
 		}
 	}]);
 
-	function Config() {
-		var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-		    _ref$suits = _ref.suits,
-		    suits = _ref$suits === undefined ? STANDARD_SUITS : _ref$suits,
-		    _ref$numbers = _ref.numbers,
-		    numbers = _ref$numbers === undefined ? STANDARD_NUMBERS : _ref$numbers;
-
+	function Config(config) {
 		_classCallCheck(this, Config);
+
+		if (typeof config === 'string') {
+			config = PRESETS[config];
+
+			if (!config) {
+				throw new Error('invalid preset "' + config + '"');
+			}
+		}
+
+		var _config = config,
+		    suits = _config.suits,
+		    numbers = _config.numbers;
+
 
 		_suits.set(this, new SuitEnum(suits));
 		_numbers.set(this, new NumberEnum(numbers));
@@ -1248,36 +1273,36 @@ var Config = function () {
 	_createClass(Config, [{
 		key: 'on',
 		value: function on() {
-			var _ref2;
+			var _ref;
 
-			(_ref2 = _getEvents.call(this)).on.apply(_ref2, arguments);
+			(_ref = _getEvents.call(this)).on.apply(_ref, arguments);
 
 			return this;
 		}
 	}, {
 		key: 'once',
 		value: function once() {
-			var _ref3;
+			var _ref2;
 
-			(_ref3 = _getEvents.call(this)).once.apply(_ref3, arguments);
+			(_ref2 = _getEvents.call(this)).once.apply(_ref2, arguments);
 
 			return this;
 		}
 	}, {
 		key: 'off',
 		value: function off() {
-			var _ref4;
+			var _ref3;
 
-			(_ref4 = _getEvents.call(this)).off.apply(_ref4, arguments);
+			(_ref3 = _getEvents.call(this)).off.apply(_ref3, arguments);
 
 			return this;
 		}
 	}, {
 		key: 'emit',
 		value: function emit() {
-			var _ref5;
+			var _ref4;
 
-			(_ref5 = _getEvents.call(this)).emit.apply(_ref5, arguments);
+			(_ref4 = _getEvents.call(this)).emit.apply(_ref4, arguments);
 
 			return this;
 		}

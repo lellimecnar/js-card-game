@@ -3,8 +3,16 @@ import Emitter from 'tiny-emitter';
 
 const NUMBERS = ['ZERO','ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN','TWELVE','THIRTEEN','FOURTEEN','FIFTEEN','SIXTEEN','SEVENTEEN','EIGHTEEN','NINETEEN','TWENTY'];
 
-const STANDARD_SUITS = {RED:['HEARTS','DIAMONDS'],BLACK:['CLUBS','SPADES']};
-const STANDARD_NUMBERS = ['ACE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','JACK','QUEEN','KING'];
+const PRESETS = {
+	STANDARD: {
+		suits: {RED:['HEARTS','DIAMONDS'],BLACK:['CLUBS','SPADES']},
+		numbers: ['ACE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','JACK','QUEEN','KING'],
+	},
+	ROOK: {
+		suits: ['BLACK','RED','YELLOW','GREEN'],
+		numbers: 14,
+	},
+};
 
 function constantCase(str) {
 	return str.trim().replace(/\s+/g, '_').toUpperCase();
@@ -114,10 +122,20 @@ export default class Config {
 		_logging.set(this, !!val);
 	}
 
-	constructor({
-		suits = STANDARD_SUITS,
-		numbers = STANDARD_NUMBERS,
-	} = {}) {
+	constructor(config) {
+		if (typeof config === 'string') {
+			config = PRESETS[config];
+
+			if (!config) {
+				throw new Error(`invalid preset "${config}"`);
+			}
+		}
+
+		const {
+			suits,
+			numbers,
+		} = config;
+
 		_suits.set(this, new SuitEnum(suits));
 		_numbers.set(this, new NumberEnum(numbers));
 		_events.set(this, new Emitter());

@@ -18,6 +18,14 @@ function _getRounds() {
 
 export default class CardGame {
 
+	static get STANDARD() {
+		return new Config('STANDARD');
+	}
+
+	static get ROOK() {
+		return new Config('ROOK');
+	}
+
 	static get Config() {
 		return Config;
 	}
