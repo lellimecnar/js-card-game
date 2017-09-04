@@ -4,6 +4,8 @@ export default class Round {
 	constructor(config) {
 		this._config = config;
 		this._players = [];
+
+		this._config.emit('round:create', this);
 	}
 
 	addPlayer(player: Player) {
@@ -12,6 +14,7 @@ export default class Round {
 			this._players.indexOf(player) < 0
 		) {
 			this._players.push(player);
+			this._config.emit('round:addPlayer', this, player);
 		}
 
 		return this;
@@ -29,10 +32,13 @@ export default class Round {
 			player.resetScore();
 		});
 
+		this._config.emit('round:start', this);
 		return this;
 	}
 
 	finish() {
+
+		this._config.emit('round:finish', this);
 		return this;
 	}
 

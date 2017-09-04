@@ -3,7 +3,8 @@ import CardSet from '../CardSet';
 import Deck from '../Deck';
 import Player from '../Player';
 import Round from '../Round';
-import Preset from './Preset';
+
+import Config from './Config';
 
 const _rounds = new WeakMap();
 
@@ -13,8 +14,8 @@ function _getRounds() {
 
 export default class CardGame {
 
-	static get Preset() {
-		return Preset;
+	static get Config() {
+		return Config;
 	}
 
 	static get Card() {
@@ -41,18 +42,22 @@ export default class CardGame {
 		return this::_getRounds().slice(-1)[0];
 	}
 
-	constructor(config) {
-		if (!(config instanceof Preset)) {
-			config = new Preset(config);
+	constructor(config, players: Array<Player>|Array<String>) {
+		config = config || {};
+
+		if (!(config instanceof Config)) {
+			config = new Config(config);
 		}
 
 		this._config = config;
 
 		_rounds.set(this, [new Round(config)]);
+
+		this.addPlayers(players);
 	}
 
 	addPlayer(player: Player|String) {
-		if (typeof player === 'string') {
+		if (player && typeof player === 'string') {
 			player = new Player(player, this._config);
 		}
 
@@ -62,6 +67,10 @@ export default class CardGame {
 	}
 
 	addPlayers(players: Array<Player>) {
+		if (!Array.isArray(players)) {
+			players = [players];
+		}
+
 		players.forEach(::this.addPlayer);
 
 		return this;
@@ -83,6 +92,25 @@ export default class CardGame {
 		players = this.currentRound.mapPlayers(player => player).concat(players || []);
 
 		this::_getRounds().push(new Round(this._config).addPlayers(players));
+
+		return this;
+	}
+
+
+	on(...args) {
+		this._config.on(...args);
+
+		return this;
+	}
+
+	once(...args) {
+		this._config.once(...args);
+
+		return this;
+	}
+
+	off(...args) {
+		this._config.off(...args);
 
 		return this;
 	}

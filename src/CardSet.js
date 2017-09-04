@@ -1,4 +1,13 @@
 import Card, {_getSuit, _getNumber, _setParent} from './Card';
+import Emitter from 'tiny-emitter';
+
+const _events = new WeakMap();
+const _config = new WeakMap();
+
+export function _emit(type, ...args) {
+	_events.get(this).emit(type, this, ...args);
+	_config.get(this).emit(`cardSet:${type}`, this, ...args);
+}
 
 export default class CardSet {
 	get topCard() {
@@ -11,7 +20,8 @@ export default class CardSet {
 	}
 
 	constructor(cards: Array, config) {
-		this._config = config;
+		_config.set(this, config);
+		_events.set(this, new Emitter());
 		this._cards = [];
 
 		if (Array.isArray(cards)) {
@@ -28,6 +38,8 @@ export default class CardSet {
 			if (card instanceof Card) {
 				this._cards.push(card);
 				card::_setParent(this);
+
+				this::_emit('addCard', card);
 			}
 		});
 
@@ -36,6 +48,8 @@ export default class CardSet {
 
 	remove(card: Card) {
 		this._cards.splice(this._cards.indexOf(card), 1);
+
+		this::_emit('removeCard', card);
 
 		return this;
 	}
@@ -49,9 +63,12 @@ export default class CardSet {
 			if (
 				card instanceof Card &&
 				!this.canDrop ||
-				this.canDrop(card)
+				this.canDrop(card) !== false
 			) {
 				this.add(card);
+				this::_emit('dropCard', card);
+			} else {
+				this::_emit('rejectCard', card);
 			}
 		});
 
@@ -69,11 +86,16 @@ export default class CardSet {
 			this._cards[top] = tmp;
 		}
 
+		this::_emit('shuffle', this);
+
 		return this;
 	}
 
 	draw(count: Number) {
-		return this._cards.slice(-(count));
+		const cards = this._cards.slice(-(count));
+		this::_emit('drawCards', cards);
+
+		return cards;
 	}
 
 	each(fn) {
@@ -86,5 +108,23 @@ export default class CardSet {
 		return this._cards.map((card, i) => {
 			return fn(card, i, card::_getSuit(), card::_getNumber());
 		});
+	}
+
+	on(...args) {
+		this._events.on(...args);
+
+		return this;
+	}
+
+	one(...args) {
+		this._events.one(...args);
+
+		return this;
+	}
+
+	off(...args) {
+		this._events.off(...args);
+
+		return this;
 	}
 }

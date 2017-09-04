@@ -1,4 +1,7 @@
 import Enum from 'enum';
+import Emitter from 'tiny-emitter';
+
+const events = new Emitter();
 
 const NUMBERS = ['ZERO','ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN','TWELVE','THIRTEEN','FOURTEEN','FIFTEEN','SIXTEEN','SEVENTEEN','EIGHTEEN','NINETEEN','TWENTY'];
 
@@ -76,7 +79,7 @@ class NumberEnum extends Enum {
 	}
 }
 
-export default class Preset {
+export default class Config {
 	get suits() {
 		return this._suits;
 	}
@@ -97,5 +100,29 @@ export default class Preset {
 		this._suits = new SuitEnum(suits);
 		this._numbers = new NumberEnum(numbers);
 		this._initialScore = initialScore;
+	}
+
+	on(...args) {
+		events.on(...args);
+
+		return this;
+	}
+
+	once(...args) {
+		events.once(...args);
+
+		return this;
+	}
+
+	off(...args) {
+		events.off(...args);
+
+		return this;
+	}
+
+	emit(...args) {
+		events.emit(...args);
+
+		return this;
 	}
 }

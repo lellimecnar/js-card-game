@@ -85,7 +85,7 @@ Object.defineProperty(exports,"__esModule",{value:true});var _CardGame=__webpack
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(12);var _Card2=_interopRequireDefault(_Card);var _CardSet=__webpack_require__(13);var _CardSet2=_interopRequireDefault(_CardSet);var _Deck=__webpack_require__(14);var _Deck2=_interopRequireDefault(_Deck);var _Player=__webpack_require__(15);var _Player2=_interopRequireDefault(_Player);var _Round=__webpack_require__(16);var _Round2=_interopRequireDefault(_Round);var _Preset=__webpack_require__(4);var _Preset2=_interopRequireDefault(_Preset);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfCardGame=new WeakMap();const _rounds=new WeakMap();function _getRounds(){return _rounds.get(this);}class CardGame{static get Preset(){return _Preset2.default;}static get Card(){return _Card2.default;}static get CardSet(){return _CardSet2.default;}static get Deck(){return _Deck2.default;}static get Player(){return _Player2.default;}static get Round(){return _Round2.default;}get currentRound(){return _getRounds.call(this).slice(-1)[0];}constructor(config){privateAttributesOfCardGame.set(this,{});if(!(config instanceof _Preset2.default)){config=new _Preset2.default(config);}privateAttributesOfCardGame.get(this)._config=config;_rounds.set(this,[new _Round2.default(config)]);}addPlayer(player){if(typeof player==='string'){player=new _Player2.default(player,privateAttributesOfCardGame.get(this)._config);}this.currentRound.addPlayer(player);return this;}addPlayers(players){players.forEach(this.addPlayer.bind(this));return this;}startRound(){this.currentRound.start();return this;}finishRound(){this.currentRound.finish();return this;}newRound(players){players=this.currentRound.mapPlayers(player=>player).concat(players||[]);_getRounds.call(this).push(new _Round2.default(privateAttributesOfCardGame.get(this)._config).addPlayers(players));return this;}}exports.default=CardGame;
+Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(12);var _Card2=_interopRequireDefault(_Card);var _CardSet=__webpack_require__(13);var _CardSet2=_interopRequireDefault(_CardSet);var _Deck=__webpack_require__(14);var _Deck2=_interopRequireDefault(_Deck);var _Player=__webpack_require__(15);var _Player2=_interopRequireDefault(_Player);var _Round=__webpack_require__(16);var _Round2=_interopRequireDefault(_Round);var _Config=__webpack_require__(18);var _Config2=_interopRequireDefault(_Config);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfCardGame=new WeakMap();const _rounds=new WeakMap();function _getRounds(){return _rounds.get(this);}class CardGame{static get Config(){return _Config2.default;}static get Card(){return _Card2.default;}static get CardSet(){return _CardSet2.default;}static get Deck(){return _Deck2.default;}static get Player(){return _Player2.default;}static get Round(){return _Round2.default;}get currentRound(){return _getRounds.call(this).slice(-1)[0];}constructor(config,players){privateAttributesOfCardGame.set(this,{});config=config||{};if(!(config instanceof _Config2.default)){config=new _Config2.default(config);}privateAttributesOfCardGame.get(this)._config=config;_rounds.set(this,[new _Round2.default(config)]);this.addPlayers(players);}addPlayer(player){if(player&&typeof player==='string'){player=new _Player2.default(player,privateAttributesOfCardGame.get(this)._config);}this.currentRound.addPlayer(player);return this;}addPlayers(players){if(!Array.isArray(players)){players=[players];}players.forEach(this.addPlayer.bind(this));return this;}startRound(){this.currentRound.start();return this;}finishRound(){this.currentRound.finish();return this;}newRound(players){players=this.currentRound.mapPlayers(player=>player).concat(players||[]);_getRounds.call(this).push(new _Round2.default(privateAttributesOfCardGame.get(this)._config).addPlayers(players));return this;}on(...args){privateAttributesOfCardGame.get(this)._config.on(...args);return this;}once(...args){privateAttributesOfCardGame.get(this)._config.once(...args);return this;}off(...args){privateAttributesOfCardGame.get(this)._config.off(...args);return this;}}exports.default=CardGame;
 
 /***/ }),
 /* 2 */,
@@ -114,13 +114,7 @@ var isNumber = function (value) {
 exports.isNumber = isNumber;
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _enum=__webpack_require__(5);var _enum2=_interopRequireDefault(_enum);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfPreset=new WeakMap();const NUMBERS=['ZERO','ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN','TWELVE','THIRTEEN','FOURTEEN','FIFTEEN','SIXTEEN','SEVENTEEN','EIGHTEEN','NINETEEN','TWENTY'];const STANDARD_SUITS={RED:['HEARTS','DIAMONDS'],BLACK:['CLUBS','SPADES']};const STANDARD_NUMBERS=['ACE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','JACK','QUEEN','KING'];function constantCase(str){return str.trim().replace(/\s+/g,'_').toUpperCase();}function makeRange(max){return[...Array(max)].map((val,n)=>NUMBERS[++n]);}class SuitEnum extends _enum2.default{constructor(suits){let groups={};let suitMap={};if(!Array.isArray(suits)){let flatSuits=[];let groupNames=Object.keys(suits);groupNames.forEach(name=>{flatSuits=[...flatSuits,...suits[name]];suits[name].forEach(suit=>{groups[suit]=groupNames[name];});});suits=flatSuits;}suits.forEach((suit,i)=>{suitMap[constantCase(suit)]={index:i,group:groups[suit]};});super(suitMap);}each(fn){this.enums.forEach(suit=>fn(suit.key));}}class NumberEnum extends _enum2.default{constructor(numbers){if(typeof numbers==='number'){numbers=makeRange(numbers);}let values={};let numberMap={};if(!Array.isArray(numbers)){let values=numbers;numbers=Object.keys(numbers);}numbers.forEach((number,i)=>{numberMap[constantCase(number)]={index:i,value:values[number]};});super(numberMap);}each(fn){this.enums.forEach(number=>fn(number.key));}}class Preset{get suits(){return privateAttributesOfPreset.get(this)._suits;}get numbers(){return privateAttributesOfPreset.get(this)._numbers;}get initialScore(){return privateAttributesOfPreset.get(this)._initialScore;}constructor({suits=STANDARD_SUITS,numbers=STANDARD_NUMBERS,initialScore=0}={}){privateAttributesOfPreset.set(this,{});privateAttributesOfPreset.get(this)._suits=new SuitEnum(suits);privateAttributesOfPreset.get(this)._numbers=new NumberEnum(numbers);privateAttributesOfPreset.get(this)._initialScore=initialScore;}}exports.default=Preset;
-
-/***/ }),
+/* 4 */,
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -731,35 +725,114 @@ function isSlowBuffer (obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});exports._getSuit=_getSuit;exports._getNumber=_getNumber;exports._setParent=_setParent;var _CardSet=__webpack_require__(13);var _CardSet2=_interopRequireDefault(_CardSet);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const _suit=new WeakMap();const _number=new WeakMap();const _parent=new WeakMap();const _deck=new WeakMap();function _getSuit(){return _suit.get(this);}function _getNumber(){return _number.get(this);}function _setParent(newParent){if(!newParent||!(newParent instanceof _CardSet2.default)&&!(newParent.constructor instanceof _CardSet2.default)){throw new Error('parent of Card can only be an instance of CardSet');}if(this.parent){this.parent.remove(this);}_parent.set(this,newParent);}function _getNumberIndex(){return this.deck.NUMBERS.enums.indexOf(_getNumber.call(this));}function _getSuitName(){return _getSuit.call(this).key;}function _getNumberName(){return _getNumber.call(this).key;}function _getSuitGroup(){return _getSuit.call(this).value;}class Card{static compare(a,b,fn){return fn({sameSuit:_getSuitName.call(a)===_getSuitName.call(b),sameSuitGroup:_getSuitGroup.call(a)===_getSuitGroup.call(b),sameNumber:_getNumberName.call(a)===_getNumberName.call(a),numberDiff:_getNumberIndex.call(a)-_getNumberIndex.call(b)});}get parent(){return _parent.get(this);}get deck(){return _deck.get(this);}constructor(suit,number,deck){_suit.set(this,deck.SUITS.get(suit));_number.set(this,deck.NUMBERS.get(number));_deck.set(this,deck);}isSameSuit(card){return Card.compare(this,card,({sameSuit})=>sameSuit);}isSameSuitGroup(card){return Card.compare(this,card,({sameSuitGroup})=>sameSuitGroup);}isDiff(card,diff){if(typeof diff==='number'){diff=numberDiff=>numberDiff===diff;}return Card.compare(this,card,({numberDiff})=>diff(numberDiff));}isSameNumber(card){return this.isDiff(card,0);}isGreaterThan(card){return this.isDiff(card,diff=>diff>0);}isLessThan(card){return this.isDiff(card,diff=>diff<0);}isPlusOne(card){return this.isDiff(card,1);}isMinusOne(card){return this.isDiff(card,-1);}toString(){return`Card {${_getSuitName.call(this)}, ${_getNumberName.call(this)}}`;}}exports.default=Card;
+Object.defineProperty(exports,"__esModule",{value:true});exports._getSuit=_getSuit;exports._getNumber=_getNumber;exports._setParent=_setParent;var _CardSet=__webpack_require__(13);var _CardSet2=_interopRequireDefault(_CardSet);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfCard=new WeakMap();const _suit=new WeakMap();const _number=new WeakMap();const _parent=new WeakMap();function _getSuit(){return _suit.get(this);}function _getNumber(){return _number.get(this);}function _setParent(newParent){if(!newParent||!(newParent instanceof _CardSet2.default)&&!(newParent.constructor instanceof _CardSet2.default)){throw new Error('parent of Card can only be an instance of CardSet');}if(this.parent){this.parent.remove(this);}_parent.set(this,newParent);}function _getNumberIndex(){return this.deck.NUMBERS.enums.indexOf(_getNumber.call(this));}function _getSuitName(){return _getSuit.call(this).key;}function _getNumberName(){return _getNumber.call(this).key;}function _getSuitGroup(){return _getSuit.call(this).value;}class Card{static compare(a,b,fn){return fn({sameSuit:_getSuitName.call(a)===_getSuitName.call(b),sameSuitGroup:_getSuitGroup.call(a)===_getSuitGroup.call(b),sameNumber:_getNumberName.call(a)===_getNumberName.call(a),numberDiff:_getNumberIndex.call(a)-_getNumberIndex.call(b)});}get parent(){return _parent.get(this);}get deck(){return _deck.get(this);}constructor(suit,number,deck,config){privateAttributesOfCard.set(this,{});_suit.set(this,deck.SUITS.get(suit));_number.set(this,deck.NUMBERS.get(number));privateAttributesOfCard.get(this)._deck=deck;privateAttributesOfCard.get(this)._config=config;privateAttributesOfCard.get(this)._config.emit('card:create',this);}isSameSuit(card){return Card.compare(this,card,({sameSuit})=>sameSuit);}isSameSuitGroup(card){return Card.compare(this,card,({sameSuitGroup})=>sameSuitGroup);}isDiff(card,diff){if(typeof diff==='number'){diff=numberDiff=>numberDiff===diff;}return Card.compare(this,card,({numberDiff})=>diff(numberDiff));}isSameNumber(card){return this.isDiff(card,0);}isGreaterThan(card){return this.isDiff(card,diff=>diff>0);}isLessThan(card){return this.isDiff(card,diff=>diff<0);}isPlusOne(card){return this.isDiff(card,1);}isMinusOne(card){return this.isDiff(card,-1);}}exports.default=Card;
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(12);var _Card2=_interopRequireDefault(_Card);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfCardSet=new WeakMap();class CardSet{get topCard(){const cards=_getCards.call(this);return cards[cards.length];}get length(){return _getCards.call(this).length;}constructor(cards,config){privateAttributesOfCardSet.set(this,{});privateAttributesOfCardSet.get(this)._config=config;privateAttributesOfCardSet.get(this)._cards=[];if(Array.isArray(cards)){this.add(cards);}}add(newCards){if(newCards instanceof _Card2.default){newCards=[newCards];}newCards.forEach(card=>{if(card instanceof _Card2.default){privateAttributesOfCardSet.get(this)._cards.push(card);_Card._setParent.call(card,this);}});return this;}remove(card){privateAttributesOfCardSet.get(this)._cards.splice(privateAttributesOfCardSet.get(this)._cards.indexOf(card),1);return this;}drop(newCards){if(!Array.isArray(newCards)){newCards=[newCards];}newCards.forEach(card=>{if(card instanceof _Card2.default&&!this.canDrop||this.canDrop(card)){this.add(card);}});return this;}shuffle(){let tmp,current;let top=privateAttributesOfCardSet.get(this)._cards.length;if(top)while(--top){current=Math.floor(Math.random()*(top+1));tmp=privateAttributesOfCardSet.get(this)._cards[current];privateAttributesOfCardSet.get(this)._cards[current]=privateAttributesOfCardSet.get(this)._cards[top];privateAttributesOfCardSet.get(this)._cards[top]=tmp;}return this;}draw(count){return privateAttributesOfCardSet.get(this)._cards.slice(-count);}each(fn){privateAttributesOfCardSet.get(this)._cards.forEach((card,i)=>{fn(card,i,_Card._getSuit.call(card),_Card._getNumber.call(card));});}map(fn){return privateAttributesOfCardSet.get(this)._cards.map((card,i)=>{return fn(card,i,_Card._getSuit.call(card),_Card._getNumber.call(card));});}}exports.default=CardSet;
+Object.defineProperty(exports,"__esModule",{value:true});exports._emit=_emit;var _Card=__webpack_require__(12);var _Card2=_interopRequireDefault(_Card);var _tinyEmitter=__webpack_require__(17);var _tinyEmitter2=_interopRequireDefault(_tinyEmitter);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfCardSet=new WeakMap();const _events=new WeakMap();const _config=new WeakMap();function _emit(type,...args){_events.get(this).emit(type,this,...args);_config.get(this).emit(`cardSet:${type}`,this,...args);}class CardSet{get topCard(){const cards=_getCards.call(this);return cards[cards.length];}get length(){return _getCards.call(this).length;}constructor(cards,config){privateAttributesOfCardSet.set(this,{});_config.set(this,config);_events.set(this,new _tinyEmitter2.default());privateAttributesOfCardSet.get(this)._cards=[];if(Array.isArray(cards)){this.add(cards);}}add(newCards){if(newCards instanceof _Card2.default){newCards=[newCards];}newCards.forEach(card=>{if(card instanceof _Card2.default){privateAttributesOfCardSet.get(this)._cards.push(card);_Card._setParent.call(card,this);_emit.call(this,'addCard',card);}});return this;}remove(card){privateAttributesOfCardSet.get(this)._cards.splice(privateAttributesOfCardSet.get(this)._cards.indexOf(card),1);_emit.call(this,'removeCard',card);return this;}drop(newCards){if(!Array.isArray(newCards)){newCards=[newCards];}newCards.forEach(card=>{if(card instanceof _Card2.default&&!this.canDrop||this.canDrop(card)!==false){this.add(card);_emit.call(this,'dropCard',card);}else{_emit.call(this,'rejectCard',card);}});return this;}shuffle(){let tmp,current;let top=privateAttributesOfCardSet.get(this)._cards.length;if(top)while(--top){current=Math.floor(Math.random()*(top+1));tmp=privateAttributesOfCardSet.get(this)._cards[current];privateAttributesOfCardSet.get(this)._cards[current]=privateAttributesOfCardSet.get(this)._cards[top];privateAttributesOfCardSet.get(this)._cards[top]=tmp;}_emit.call(this,'shuffle',this);return this;}draw(count){const cards=privateAttributesOfCardSet.get(this)._cards.slice(-count);_emit.call(this,'drawCards',cards);return cards;}each(fn){privateAttributesOfCardSet.get(this)._cards.forEach((card,i)=>{fn(card,i,_Card._getSuit.call(card),_Card._getNumber.call(card));});}map(fn){return privateAttributesOfCardSet.get(this)._cards.map((card,i)=>{return fn(card,i,_Card._getSuit.call(card),_Card._getNumber.call(card));});}on(...args){privateAttributesOfCardSet.get(this)._events.on(...args);return this;}one(...args){privateAttributesOfCardSet.get(this)._events.one(...args);return this;}off(...args){privateAttributesOfCardSet.get(this)._events.off(...args);return this;}}exports.default=CardSet;
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(12);var _Card2=_interopRequireDefault(_Card);var _CardSet=__webpack_require__(13);var _CardSet2=_interopRequireDefault(_CardSet);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfDeck=new WeakMap();class Deck extends _CardSet2.default{get SUITS(){return privateAttributesOfDeck.get(this)._suits;}get NUMBERS(){return privateAttributesOfDeck.get(this)._numbers;}get player(){return privateAttributesOfDeck.get(this)._player;}constructor({suits,numbers},player){super();privateAttributesOfDeck.set(this,{});privateAttributesOfDeck.get(this)._suits=suits;privateAttributesOfDeck.get(this)._numbers=numbers;privateAttributesOfDeck.get(this)._player=player;suits.each(suit=>{numbers.each(number=>{this.add(new _Card2.default(suit,number,this));});});}}exports.default=Deck;
+Object.defineProperty(exports,"__esModule",{value:true});var _Card=__webpack_require__(12);var _Card2=_interopRequireDefault(_Card);var _CardSet=__webpack_require__(13);var _CardSet2=_interopRequireDefault(_CardSet);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfDeck=new WeakMap();class Deck extends _CardSet2.default{get SUITS(){return privateAttributesOfDeck.get(this)._config.suits;}get NUMBERS(){return privateAttributesOfDeck.get(this)._config.numbers;}get player(){return privateAttributesOfDeck.get(this)._player;}constructor(config,player){super(null,config);privateAttributesOfDeck.set(this,{});privateAttributesOfDeck.get(this)._config=config;privateAttributesOfDeck.get(this)._player=player;this.SUITS.each(suit=>{this.NUMBERS.each(number=>{this.add(new _Card2.default(suit,number,this,config));});});_CardSet._emit.call(this,'deck:create',this);}canDrop(){return false;}}exports.default=Deck;
 
 /***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Deck=__webpack_require__(14);var _Deck2=_interopRequireDefault(_Deck);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfPlayer=new WeakMap();class Player{get name(){return privateAttributesOfPlayer.get(this)._name;}get deck(){return privateAttributesOfPlayer.get(this)._deck;}get score(){return privateAttributesOfPlayer.get(this)._score;}constructor(name,config){privateAttributesOfPlayer.set(this,{});privateAttributesOfPlayer.get(this)._name=name;privateAttributesOfPlayer.get(this)._config=config;privateAttributesOfPlayer.get(this)._deck=new _Deck2.default(config,this);this.resetScore();}addScore(num){privateAttributesOfPlayer.get(this)._score+=num;}resetScore(){privateAttributesOfPlayer.get(this)._score=privateAttributesOfPlayer.get(this)._config.initialScore;}}exports.default=Player;
+Object.defineProperty(exports,"__esModule",{value:true});var _Deck=__webpack_require__(14);var _Deck2=_interopRequireDefault(_Deck);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfPlayer=new WeakMap();class Player{get name(){return privateAttributesOfPlayer.get(this)._name;}get deck(){return privateAttributesOfPlayer.get(this)._deck;}get score(){return privateAttributesOfPlayer.get(this)._score;}constructor(name,config){privateAttributesOfPlayer.set(this,{});privateAttributesOfPlayer.get(this)._name=name;privateAttributesOfPlayer.get(this)._config=config;privateAttributesOfPlayer.get(this)._deck=new _Deck2.default(config,this);this.resetScore();privateAttributesOfPlayer.get(this)._config.emit('player:create',this);}addScore(num){let oldScore=privateAttributesOfPlayer.get(this)._score;privateAttributesOfPlayer.get(this)._score+=num;privateAttributesOfPlayer.get(this)._config.emit('player:addScore',this,oldScore,privateAttributesOfPlayer.get(this)._score);return this;}resetScore(){privateAttributesOfPlayer.get(this)._score=privateAttributesOfPlayer.get(this)._config.initialScore;privateAttributesOfPlayer.get(this)._config.emit('player:resetScore',this);return this;}}exports.default=Player;
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _Player=__webpack_require__(15);var _Player2=_interopRequireDefault(_Player);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfRound=new WeakMap();class Round{constructor(config){privateAttributesOfRound.set(this,{});privateAttributesOfRound.get(this)._config=config;privateAttributesOfRound.get(this)._players=[];}addPlayer(player){if(player instanceof _Player2.default&&privateAttributesOfRound.get(this)._players.indexOf(player)<0){privateAttributesOfRound.get(this)._players.push(player);}return this;}addPlayers(players){players.forEach(player=>this.addPlayer(player));return this;}start(){this.eachPlayer(player=>{player.deck.shuffle();player.resetScore();});return this;}finish(){return this;}eachPlayer(fn){privateAttributesOfRound.get(this)._players.forEach(fn);return this;}mapPlayers(fn){return privateAttributesOfRound.get(this)._players.map(fn);}}exports.default=Round;
+Object.defineProperty(exports,"__esModule",{value:true});var _Player=__webpack_require__(15);var _Player2=_interopRequireDefault(_Player);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfRound=new WeakMap();class Round{constructor(config){privateAttributesOfRound.set(this,{});privateAttributesOfRound.get(this)._config=config;privateAttributesOfRound.get(this)._players=[];privateAttributesOfRound.get(this)._config.emit('round:create',this);}addPlayer(player){if(player instanceof _Player2.default&&privateAttributesOfRound.get(this)._players.indexOf(player)<0){privateAttributesOfRound.get(this)._players.push(player);privateAttributesOfRound.get(this)._config.emit('round:addPlayer',this,player);}return this;}addPlayers(players){players.forEach(player=>this.addPlayer(player));return this;}start(){this.eachPlayer(player=>{player.deck.shuffle();player.resetScore();});privateAttributesOfRound.get(this)._config.emit('round:start',this);return this;}finish(){privateAttributesOfRound.get(this)._config.emit('round:finish',this);return this;}eachPlayer(fn){privateAttributesOfRound.get(this)._players.forEach(fn);return this;}mapPlayers(fn){return privateAttributesOfRound.get(this)._players.map(fn);}}exports.default=Round;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+function E () {
+  // Keep this empty so it's easier to inherit from
+  // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
+}
+
+E.prototype = {
+  on: function (name, callback, ctx) {
+    var e = this.e || (this.e = {});
+
+    (e[name] || (e[name] = [])).push({
+      fn: callback,
+      ctx: ctx
+    });
+
+    return this;
+  },
+
+  once: function (name, callback, ctx) {
+    var self = this;
+    function listener () {
+      self.off(name, listener);
+      callback.apply(ctx, arguments);
+    };
+
+    listener._ = callback
+    return this.on(name, listener, ctx);
+  },
+
+  emit: function (name) {
+    var data = [].slice.call(arguments, 1);
+    var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
+    var i = 0;
+    var len = evtArr.length;
+
+    for (i; i < len; i++) {
+      evtArr[i].fn.apply(evtArr[i].ctx, data);
+    }
+
+    return this;
+  },
+
+  off: function (name, callback) {
+    var e = this.e || (this.e = {});
+    var evts = e[name];
+    var liveEvents = [];
+
+    if (evts && callback) {
+      for (var i = 0, len = evts.length; i < len; i++) {
+        if (evts[i].fn !== callback && evts[i].fn._ !== callback)
+          liveEvents.push(evts[i]);
+      }
+    }
+
+    // Remove event from queue to prevent memory leak
+    // Suggested by https://github.com/lazd
+    // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
+
+    (liveEvents.length)
+      ? e[name] = liveEvents
+      : delete e[name];
+
+    return this;
+  }
+};
+
+module.exports = E;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:true});var _enum=__webpack_require__(5);var _enum2=_interopRequireDefault(_enum);var _tinyEmitter=__webpack_require__(17);var _tinyEmitter2=_interopRequireDefault(_tinyEmitter);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}const privateAttributesOfConfig=new WeakMap();const events=new _tinyEmitter2.default();const NUMBERS=['ZERO','ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN','TWELVE','THIRTEEN','FOURTEEN','FIFTEEN','SIXTEEN','SEVENTEEN','EIGHTEEN','NINETEEN','TWENTY'];const STANDARD_SUITS={RED:['HEARTS','DIAMONDS'],BLACK:['CLUBS','SPADES']};const STANDARD_NUMBERS=['ACE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','JACK','QUEEN','KING'];function constantCase(str){return str.trim().replace(/\s+/g,'_').toUpperCase();}function makeRange(max){return[...Array(max)].map((val,n)=>NUMBERS[++n]);}class SuitEnum extends _enum2.default{constructor(suits){let groups={};let suitMap={};if(!Array.isArray(suits)){let flatSuits=[];let groupNames=Object.keys(suits);groupNames.forEach(name=>{flatSuits=[...flatSuits,...suits[name]];suits[name].forEach(suit=>{groups[suit]=groupNames[name];});});suits=flatSuits;}suits.forEach((suit,i)=>{suitMap[constantCase(suit)]={index:i,group:groups[suit]};});super(suitMap);}each(fn){this.enums.forEach(suit=>fn(suit.key));}}class NumberEnum extends _enum2.default{constructor(numbers){if(typeof numbers==='number'){numbers=makeRange(numbers);}let values={};let numberMap={};if(!Array.isArray(numbers)){let values=numbers;numbers=Object.keys(numbers);}numbers.forEach((number,i)=>{numberMap[constantCase(number)]={index:i,value:values[number]};});super(numberMap);}each(fn){this.enums.forEach(number=>fn(number.key));}}class Config{get suits(){return privateAttributesOfConfig.get(this)._suits;}get numbers(){return privateAttributesOfConfig.get(this)._numbers;}get initialScore(){return privateAttributesOfConfig.get(this)._initialScore;}constructor({suits=STANDARD_SUITS,numbers=STANDARD_NUMBERS,initialScore=0}={}){privateAttributesOfConfig.set(this,{});privateAttributesOfConfig.get(this)._suits=new SuitEnum(suits);privateAttributesOfConfig.get(this)._numbers=new NumberEnum(numbers);privateAttributesOfConfig.get(this)._initialScore=initialScore;}on(...args){events.on(...args);return this;}once(...args){events.once(...args);return this;}off(...args){events.off(...args);return this;}emit(...args){events.emit(...args);return this;}}exports.default=Config;
 
 /***/ })
 /******/ ]);

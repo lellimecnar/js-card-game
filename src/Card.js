@@ -3,7 +3,6 @@ import CardSet from './CardSet';
 const _suit = new WeakMap();
 const _number = new WeakMap();
 const _parent = new WeakMap();
-const _deck = new WeakMap();
 
 export function _getSuit() {
 	return _suit.get(this);
@@ -64,10 +63,13 @@ export default class Card {
 		return _deck.get(this);
 	}
 
-	constructor(suit, number, deck) {
+	constructor(suit, number, deck, config) {
 		_suit.set(this, deck.SUITS.get(suit));
 		_number.set(this, deck.NUMBERS.get(number));
-		_deck.set(this, deck);
+		this._deck = deck;
+		this._config = config;
+
+		this._config.emit('card:create', this);
 	}
 
 	isSameSuit(card: Card) {
@@ -104,9 +106,5 @@ export default class Card {
 
 	isMinusOne(card: Card) {
 		return this.isDiff(card, -1);
-	}
-
-	toString() {
-		return `Card {${this::_getSuitName()}, ${this::_getNumberName()}}`;
 	}
 }

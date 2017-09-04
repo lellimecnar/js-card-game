@@ -1,30 +1,37 @@
 import Card from '../Card';
-import CardSet from '../CardSet';
+import CardSet, {_emit} from '../CardSet';
 
 export default class Deck extends CardSet {
 
 	get SUITS() {
-		return this._suits;
+		return this._config.suits;
 	}
 
 	get NUMBERS() {
-		return this._numbers;
+		return this._config.numbers;
 	}
 
 	get player() {
 		return this._player;
 	}
 
-	constructor({suits, numbers}, player) {
-		super();
-		this._suits = suits;
-		this._numbers = numbers;
+	constructor(config, player) {
+		super(null, config);
+
+		this._config = config;
 		this._player = player;
 
-		suits.each(suit => {
-			numbers.each(number => {
-				this.add(new Card(suit, number, this));
+		this.SUITS.each(suit => {
+			this.NUMBERS.each(number => {
+				this.add(new Card(suit, number, this, config));
 			});
 		});
+
+
+		this::_emit('deck:create', this);
+	}
+
+	canDrop() {
+		return false;
 	}
 }
