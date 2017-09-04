@@ -5,17 +5,25 @@ const _cards = new WeakMap();
 const _events = new WeakMap();
 const _config = new WeakMap();
 
-export function _emit(type, ...args) {
-	_events.get(this).emit(type, this, ...args);
-	_config.get(this).emit(`cardSet:${type}`, this, ...args);
-}
-
 function _getCards() {
 	return _cards.get(this);
 }
 
 function _getEvents() {
 	return _events.get(this);
+}
+
+function _getConfig() {
+	return _config.get(this);
+}
+
+export function _emit(type, ...args) {
+	this::_getEvents().emit(type, this, ...args);
+	this::_getConfig().emit(`cardSet:${type}`, this, ...args);
+}
+
+function _logCards() {
+	console.log(this::_getCards().map(card => [card::_getSuit().key, card::_getNumber().key]));
 }
 
 export default class CardSet {
@@ -98,20 +106,32 @@ export default class CardSet {
 
 		this::_emit('shuffle', this);
 
+		this::_logCards();
+
 		return this;
 	}
 
 	sort() {
+		const numberLength = this::_getConfig().numbers.length;
+
 		this::_getCards().sort((a, b) => {
-			return
-		})
+			let aSort = (a::_getSuit().value.index * numberLength) + a::_getNumber().value.index;
+			let bSort = (b::_getSuit().value.index * numberLength) + b::_getNumber().value.index;
+
+			return aSort - bSort;
+		});
+
+		this::_emit('sort', this);
+
+		this::_logCards();
 
 		return this;
 	}
 
 	draw(count: Number) {
 		const cards = this::_getCards().slice(-(count));
-		this::_emit('drawCards', cards);
+
+		this::_emit('drawCards', this, cards);
 
 		return cards;
 	}

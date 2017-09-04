@@ -15,6 +15,11 @@ function makeRange(max) {
 }
 
 class SuitEnum extends Enum {
+
+	get length() {
+		return this.enums.length;
+	}
+
 	constructor(suits) {
 		let groups = {};
 		let suitMap = {};
@@ -49,6 +54,11 @@ class SuitEnum extends Enum {
 }
 
 class NumberEnum extends Enum {
+
+	get length() {
+		return this.enums.length;
+	}
+
 	constructor(numbers) {
 		if (typeof numbers === 'number') {
 			numbers = makeRange(numbers);

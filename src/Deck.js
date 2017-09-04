@@ -1,28 +1,35 @@
 import Card from './Card';
 import CardSet, {_emit} from './CardSet';
 
+const _config = new WeakMap();
+const _player = new WeakMap();
+
+function _getConfig() {
+	return _config.get(this);
+}
+
 export default class Deck extends CardSet {
 
-	get SUITS() {
-		return this._config.suits;
+	get suits() {
+		return this::_getConfig().suits;
 	}
 
-	get NUMBERS() {
-		return this._config.numbers;
+	get numbers() {
+		return this::_getConfig().numbers;
 	}
 
 	get player() {
-		return this._player;
+		return _player.get(this);
 	}
 
 	constructor(config, player) {
 		super(null, config);
 
-		this._config = config;
-		this._player = player;
+		_config.set(this, config);
+		_player.set(this, player);
 
-		this.SUITS.each(suit => {
-			this.NUMBERS.each(number => {
+		config.suits.each(suit => {
+			config.numbers.each(number => {
 				this.add(new Card(suit, number, this, config));
 			});
 		});

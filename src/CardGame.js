@@ -9,7 +9,7 @@ const _config = new WeakMap();
 const _rounds = new WeakMap();
 
 function _getConfig() {
-	_config.get(this);
+	return _config.get(this);
 }
 
 function _getRounds() {

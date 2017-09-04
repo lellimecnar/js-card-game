@@ -8,7 +8,7 @@ const DEST_PATH = path.join(BASE_PATH, 'dist');
 
 const config = {
 	context: BASE_PATH,
-	entry: './src/index.js',
+	entry: './src/CardGame.js',
 	output: {
 		filename: 'CardGame.js',
 		path: DEST_PATH,
@@ -29,13 +29,23 @@ const config = {
 				}
 			},
 			{
-				test: path.join(SRC_PATH, 'index.js'),
+				test: path.join(SRC_PATH, 'CardGame.js'),
 				use: {
 					loader: 'exports-loader?CardGame',
 				}
 			}
 		]
-	}
+	},
+	plugins: [
+		// new webpack.optimize.UglifyJsPlugin({
+		// 	compress: {
+		// 		warnings: false,
+		// 	},
+		// 	output: {
+		// 		comments: false,
+		// 	},
+		// })
+	]
 }
 
 module.exports = [config];

@@ -31,7 +31,7 @@ export function _setParent(newParent: CardSet) {
 }
 
 function _getNumberIndex() {
-	return this.deck.NUMBERS.enums.indexOf(this::_getNumber());
+	return this::_getNumber().value.index;
 }
 
 function _getSuitName() {
@@ -74,8 +74,8 @@ export default class Card {
 	}
 
 	constructor(suit, number, deck, config) {
-		_suit.set(this, deck.SUITS.get(suit));
-		_number.set(this, deck.NUMBERS.get(number));
+		_suit.set(this, config.suits.get(suit));
+		_number.set(this, config.numbers.get(number));
 		_deck.set(this, deck);
 		_config.set(this, config);
 
@@ -116,5 +116,9 @@ export default class Card {
 
 	isMinusOne(card: Card) {
 		return this.isDiff(card, -1);
+	}
+
+	toString() {
+		return `Card {${this::_getSuitName()}, ${this::_getNumberName()}}`;
 	}
 }
