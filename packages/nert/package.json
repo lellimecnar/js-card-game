@@ -1,0 +1,21 @@
+{
+  "name": "@card-game/nert",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Lance Miller <dev@lance.pub>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/card-game-nert.dist.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib/card-game-nert.dist.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@card-game/core": "^0.0.0"
+  }
+}
