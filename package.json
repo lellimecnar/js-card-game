@@ -10,7 +10,7 @@
     "build:site": "lerna run --scope @card-game/site build",
     "lint": "eslint ./packages/*/src",
     "test": "jest ./packages/*/src",
-    "watch:docs": "lerna run --scope @card-game/site start --stream",
+    "watch:site": "lerna run --scope @card-game/site start --stream",
     "release": "yarn lint && yarn test && yarn build && lerna publish"
   },
   "devDependencies": {

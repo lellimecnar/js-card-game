@@ -1,5 +1,3 @@
-const path = require('path');
-
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  *
@@ -13,7 +11,7 @@ const path = require('path');
 // List of projects/orgs using your project for the users page.
 const users = [
   {
-    caption: 'User1',
+    caption: 'lellimecnar',
     // You will need to prepend the image path with your baseUrl
     // if it is not '/', like: '/test-site/img/docusaurus.svg'.
     image: '/img/docusaurus.svg',
@@ -34,14 +32,15 @@ const siteConfig = {
   // Used for publishing and more
   projectName: 'card-game',
   organizationName: 'lellimecnar',
+  repoUrl: 'https://github.com/lellimecnar/js-card-game',
+  editUrl: 'https://github.com/lellimecnar/js-card-game/blob/master/packages/site/docs/',
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
+    {doc: 'core', label: 'Docs'},
     {page: 'help', label: 'Help'},
     {blog: true, label: 'Blog'},
   ],
@@ -75,11 +74,11 @@ const siteConfig = {
   */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Lance Miller`,
+  copyright: `Copyright © ${new Date().getFullYear()} lellimecnar`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
-    themeUrl: 'https://unpkg.com/highlightjs-material-dark-theme@1.0.0/css/materialdark.css',
+    themeUrl: 'https://raw.githubusercontent.com/Kelbster/highlightjs-material-dark-theme/master/css/materialdark.css',
   },
   usePrism: true,
 
@@ -96,16 +95,14 @@ const siteConfig = {
   twitterImage: 'img/docusaurus.png',
 
   // Show documentation's last contributor's name.
-  // enableUpdateBy: true,
+  enableUpdateBy: true,
 
   // Show documentation's last update time.
-  // enableUpdateTime: true,
+  enableUpdateTime: true,
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   //   repoUrl: 'https://github.com/facebook/test-site',
-
-  customDocsPath: 'docs/pages',
 };
 
 module.exports = siteConfig;

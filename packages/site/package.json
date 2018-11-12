@@ -1,10 +1,18 @@
 {
   "name": "@card-game/site",
   "version": "0.0.0",
-  "description": "",
-  "author": "Lance Miller <dev@lance.pub>",
+  "description": "> TODO: description",
+  "author": "Lance Miller <lmiller@bamboohr.com>",
   "homepage": "https://card-game.io",
   "license": "ISC",
+  "main": "lib/site.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -13,15 +21,10 @@
     "url": "git+https://github.com/lellimecnar/js-card-game.git"
   },
   "scripts": {
-    "examples": "docusaurus-examples",
-    "start": "docusaurus-start",
-    "build": "docusaurus-build",
-    "publish-gh-pages": "docusaurus-publish",
-    "write-translations": "docusaurus-write-translations",
-    "version": "docusaurus-version",
-    "rename-version": "docusaurus-rename-version"
+    "start": "cd website && yarn start",
+    "build": "cd website && yarn && yarn build"
   },
-  "devDependencies": {
-    "docusaurus": "^1.5.1"
+  "bugs": {
+    "url": "https://github.com/lellimecnar/js-card-game/issues"
   }
 }
