@@ -6,8 +6,8 @@
   ],
   "scripts": {
     "build": "webpack",
-    "build:docs": "lerna run --scope @card-game/site build",
     "build:nert": "yarn build --config-name nert",
+    "build:site": "lerna run --scope @card-game/site build",
     "lint": "eslint ./packages/*/src",
     "test": "jest ./packages/*/src",
     "watch:docs": "lerna run --scope @card-game/site start --stream",
