@@ -1,6 +1,6 @@
 {
   "name": "@card-game/nert",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "description": "> TODO: description",
   "author": "Lance Miller <dev@lance.pub>",
   "homepage": "https://card-game.io",
@@ -20,6 +20,6 @@
     "url": "git+https://github.com/lellimecnar/js-card-game.git"
   },
   "dependencies": {
-    "@card-game/core": "^0.0.0"
+    "@card-game/core": "^0.0.1-alpha.0"
   }
 }
