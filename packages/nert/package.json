@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Lance Miller <dev@lance.pub>",
-  "homepage": "",
+  "homepage": "https://card-game.io",
   "license": "ISC",
   "main": "lib/card-game-nert.dist.js",
   "directories": {
