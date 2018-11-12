@@ -1,5 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
+const {
+	paramCase,
+	pascalCase,
+} = require('change-case');
 
 const PKG_DIR = path.resolve(__dirname, './packages');
 
@@ -23,22 +27,15 @@ const config = {
 };
 
 module.exports = [
-	{ ...config,
-		name: 'core',
-		entry: [path.resolve(PKG_DIR, './core/src/index.js')],
+	[
+		'nert',
+	].reduce(name => ({
+		name,
+		entry: [path.resolve(PKG_DIR, name, 'src/index.js')],
 		output: {
-			path: path.resolve(PKG_DIR, './core/lib'),
-			filename: 'card-game-core.dist.js',
-			library: 'CardGame',
+			path: path.resolve(PKG_DIR, name, 'lib'),
+			filename: `card-game-${ name }.dist.js`,
+			library: pascalCase(name) + 'Game',
 		},
-	},
-	{ ...config,
-		name: 'nert',
-		entry: [path.resolve(PKG_DIR, './nert/src/index.js')],
-		output: {
-			path: path.resolve(PKG_DIR, './nert/lib'),
-			filename: 'card-game-nert.dist.js',
-			library: 'NertGame',
-		},
-	},
+	})),
 ];

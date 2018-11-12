@@ -1,0 +1,27 @@
+{
+  "name": "@card-game/site",
+  "version": "0.0.0",
+  "description": "",
+  "author": "Lance Miller <dev@lance.pub>",
+  "homepage": "https://card-game.io",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lellimecnar/js-card-game.git"
+  },
+  "scripts": {
+    "examples": "docusaurus-examples",
+    "start": "docusaurus-start",
+    "build": "docusaurus-build",
+    "publish-gh-pages": "docusaurus-publish",
+    "write-translations": "docusaurus-write-translations",
+    "version": "docusaurus-version",
+    "rename-version": "docusaurus-rename-version"
+  },
+  "devDependencies": {
+    "docusaurus": "^1.5.1"
+  }
+}

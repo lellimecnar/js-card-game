@@ -15,6 +15,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lellimecnar/js-card-game.git"
+  },
   "dependencies": {
     "@card-game/core": "^0.0.0"
   }

@@ -6,10 +6,11 @@
   ],
   "scripts": {
     "build": "webpack",
-    "build:core": "yarn build --config-name core",
+    "build:docs": "lerna run --scope @card-game/site build",
     "build:nert": "yarn build --config-name nert",
     "lint": "eslint ./packages/*/src",
     "test": "jest ./packages/*/src",
+    "watch:docs": "lerna run --scope @card-game/site start --stream",
     "release": "yarn lint && yarn test && yarn build && lerna publish"
   },
   "devDependencies": {
@@ -23,6 +24,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
+    "change-case": "^3.0.2",
     "eslint": "^5.9.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
