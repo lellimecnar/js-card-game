@@ -1,6 +1,6 @@
 {
   "name": "@card-game/deck-rook",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.1",
   "description": "ROOK Style card deck",
   "author": "Lance Miller <dev@lance.pub>",
   "homepage": "https://card-game.io",
@@ -20,6 +20,7 @@
     "url": "git+https://github.com/lellimecnar/js-card-game.git"
   },
   "dependencies": {
-    "@card-game/core": "^0.0.1-alpha.0"
-  }
+    "@card-game/core": "^0.0.1-alpha.1"
+  },
+  "gitHead": "729a5ff1f17590babec00a7b14505c387fff1d61"
 }
