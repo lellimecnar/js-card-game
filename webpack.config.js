@@ -1,4 +1,6 @@
-const webpack = require('webpack');
+const {
+	ProvidePlugin,
+} = require('webpack');
 const path = require('path');
 const {
 	paramCase,
@@ -13,29 +15,55 @@ const config = {
 		rules: [
 			{
 				test: /\.js$/,
+				include: PKG_DIR,
 				use: [
 					{
 						loader: 'babel-loader',
 						options: {
-
+							cacheDirectory: true,
+							babelrc: false,
+							presets: [
+								['@babel/preset-env',
+									{
+										targets: {
+											node: true,
+											browsers: 'defaults',
+										},
+										useBuiltIns: 'entry',
+									},
+								],
+							],
+							plugins: [
+								'@babel/plugin-proposal-function-bind',
+								'@babel/plugin-proposal-logical-assignment-operators',
+							],
 						},
 					},
 				],
 			},
 		],
 	},
+	plugins: [
+		new ProvidePlugin({
+			'_': ['@card-game/core/src/util/privates', 'default'],
+		}),
+	],
 };
 
 module.exports = [
 	[
-		'nert',
-	].reduce(name => ({
+		{
+			name: 'deck-rook',
+			library: 'RookDeck',
+		}
+	].reduce((configs, { name, library }) => ({
+		...config,
 		name,
-		entry: [path.resolve(PKG_DIR, name, 'src/index.js')],
+		entry: [ path.resolve(PKG_DIR, name, 'src/index.js') ],
 		output: {
 			path: path.resolve(PKG_DIR, name, 'lib'),
 			filename: `card-game-${ name }.dist.js`,
-			library: pascalCase(name) + 'Game',
+			library,
 		},
-	})),
+	}), {}),
 ];

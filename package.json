@@ -1,29 +1,30 @@
 {
-  "name": "root",
+  "name": "card-game",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "build": "webpack",
-    "build:nert": "yarn build --config-name nert",
-    "build:site": "lerna run --scope @card-game/site build",
+    "build:deck-rook": "yarn build --config-name deck-rook",
+    "build:site": "lerna run --scope @card-game/site build --stream",
     "lint": "eslint ./packages/*/src",
     "test": "jest ./packages/*/src",
     "watch:site": "lerna run --scope @card-game/site start --stream",
     "release": "yarn lint && yarn test && yarn build && lerna publish"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.5",
+    "@babel/core": "^7.1.6",
     "@babel/plugin-proposal-function-bind": "^7.0.0",
     "@babel/plugin-proposal-logical-assignment-operators": "^7.0.0",
     "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.5",
+    "@babel/preset-env": "^7.1.6",
     "@babel/preset-flow": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
+    "babel-plugin-class-name": "^1.1.0",
     "change-case": "^3.0.2",
     "eslint": "^5.9.0",
     "eslint-config-standard": "^12.0.0",

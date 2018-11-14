@@ -12,5 +12,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lellimecnar/js-card-game.git"
+  },
+  "devDependencies": {
+    "lodash": "^4.17.11"
   }
 }
