@@ -55,7 +55,11 @@ module.exports = [
 		{
 			name: 'deck-rook',
 			library: 'RookDeck',
-		}
+		},
+		{
+			name: 'deck-standard',
+			library: 'StandardDeck',
+		},
 	].reduce((configs, { name, library }) => ({
 		...config,
 		name,

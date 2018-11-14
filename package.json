@@ -7,6 +7,7 @@
   "scripts": {
     "build": "webpack",
     "build:deck-rook": "yarn build --config-name deck-rook",
+    "build:deck-standard": "yarn build --config-name deck-standard",
     "build:site": "lerna run --scope @card-game/site build --stream",
     "lint": "eslint ./packages/*/src",
     "test": "jest ./packages/*/src",

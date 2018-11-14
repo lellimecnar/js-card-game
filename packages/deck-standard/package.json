@@ -1,0 +1,25 @@
+{
+  "name": "@card-game/deck-standard",
+  "version": "0.0.1-alpha.1",
+  "description": "Standard card deck",
+  "author": "Lance Miller <dev@lance.pub>",
+  "homepage": "https://card-game.io",
+  "license": "ISC",
+  "main": "lib/card-game-deck-standard.dist.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib/card-game-deck-standard.dist.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lellimecnar/js-card-game.git"
+  },
+  "dependencies": {
+    "@card-game/core": "^0.0.1-alpha.1"
+  }
+}
