@@ -1,6 +1,6 @@
 {
   "name": "@card-game/deck-standard",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "Standard card deck",
   "author": "Lance Miller <dev@lance.pub>",
   "homepage": "https://card-game.io",
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/lellimecnar/js-card-game.git"
   },
   "dependencies": {
-    "@card-game/core": "^0.0.1-alpha.2"
+    "@card-game/core": "^0.0.1-alpha.3"
   },
   "gitHead": "729a5ff1f17590babec00a7b14505c387fff1d61"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@card-game/core",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "A JS library for creating card games.",
   "author": "Lance Miller <dev@lance.pub>",
   "homepage": "https://card-game.io",
