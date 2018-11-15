@@ -22,6 +22,7 @@ function _addCards(...cards) {
 	cards.forEach((card, i) => {
 		_(card).cardSet = this;
 		_(card).index = length + i;
+		_(card).originalIndex = _(card).index;
 
 		_(this).hasCards ||= true;
 	});
@@ -131,7 +132,7 @@ export default class CardSet {
 
 	unshuffle(): this {
 		this._cards
-			.forEach((card, i) => _(card).index = i);
+			.forEach(card => _(card).index = _(card).originalIndex);
 
 		return this;
 	}
@@ -140,7 +141,7 @@ export default class CardSet {
 		const cards = this._cards.map(card => _(card));
 
 		sortBy(cards, ...args)
-			.forEach((card, i) => _(card).index = i);
+			.forEach((props, i) => props.index = i);
 
 		return this;
 	}

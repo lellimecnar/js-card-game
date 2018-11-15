@@ -18,7 +18,6 @@ export default class Card {
 	}
 
 	get id(): string {
-		console.log(_(this));
 		if (_(this).suit && _(this).rank) {
 			return [_(this).suit, _(this).rank].join(':');
 		}
