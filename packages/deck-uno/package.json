@@ -1,0 +1,20 @@
+{
+  "name": "@card-game/deck-uno",
+  "version": "0.0.1-alpha.2",
+  "description": "UNO card deck",
+  "author": "Lance Miller <dev@lance.pub>",
+  "homepage": "https://card-game.io",
+  "license": "ISC",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lellimecnar/js-card-game.git"
+  },
+  "dependencies": {
+    "@card-game/core": "^0.0.1-alpha.2"
+  },
+  "gitHead": "729a5ff1f17590babec00a7b14505c387fff1d61"
+}
