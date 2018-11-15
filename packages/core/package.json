@@ -4,7 +4,7 @@
   "description": "A JS library for creating card games.",
   "author": "Lance Miller <dev@lance.pub>",
   "homepage": "https://card-game.io",
-  "license": "MIT",
+  "license": "ISC",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"

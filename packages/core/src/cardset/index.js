@@ -3,6 +3,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import range from 'lodash/range';
 import sortBy from 'lodash/sortBy';
 import Card from '../card';
+import Player from '../player';
 
 function _addCards(...cards) {
 	cards = compact(flattenDeep(cards));
@@ -11,7 +12,7 @@ function _addCards(...cards) {
 		cards.length > 0 &&
 		!Card.isCard(...cards)
 	) {
-		throw new Error(`Invalid card${ cards.length > 1 ? 's' : '' } added to ${ this.constructor.name }`, { cards });
+		throw new Error(`Invalid card${ cards.length > 1 ? 's' : '' } added to ${ this.constructor.displayName }`, { cards });
 	}
 
 	const {
@@ -27,115 +28,115 @@ function _addCards(...cards) {
 }
 
 export default class CardSet {
-	get _cards() {
+	get _cards(): Card[] {
 		return _(Card).cards
 			.filter(card => _(card).cardSet === this);
 	}
 
-	set _cards(cards) {
+	set _cards(cards: Card[]) {
 		if (_(this).hasCards) {
-			throw new Error(`This ${ this.constructor.className } already has cards.`);
+			throw new Error(`This ${ this.constructor.displayName } already has cards.`);
 		}
 
 		this::_addCards(cards);
 	}
 
-	get cards() {
+	get cards(): Card[] {
 		return _(Card).cards
 			.reduce((cards, card) => {
 				if (_(card).cardSet === this) {
 					cards[_(card).index] = card;
 				}
-				
+
 				return cards;
 			}, []);
 	}
-	
-	get topCard() {
-		return this.get(this.length - 1);
+
+	get topCard(): Card {
+		return this.getCard(this.length - 1);
 	}
-	
-	get length() {
+
+	get length(): number {
 		return this._cards.length;
 	}
-	
-	get owner() {
+
+	get owner(): Player {
 		return _(this).owner;
 	}
 
-	constructor(cards, owner) {
+	constructor(cards?: Card[], owner: Player): CardSet {
 		this._cards = cards;
 		_(this).owner = owner;
 	}
 
-	draw(count = 1, hand) {
+	draw(count: number = 1, hand?: CardSet): CardSet {
 		if (hand instanceof CardSet === false) {
 			hand = new CardSet();
 		}
-		
+
 		return hand.dropCard(...this.cards.slice(-(count)));
 	}
-	
-	drawRandom(count = 1, hand) {
+
+	drawRandom(count: number = 1, hand?: CardSet): CardSet {
 		if (hand instanceof CardSet === false) {
 			hand = new CardSet();
 		}
-		
+
 		const {
 			cards,
 		} = this;
-		
+
 		const newCards = range(count)
 			.map(() => {
 				const index = Math.floor(Math.random() * cards.length);
 				const [ newCard ] = cards.splice(index, 1);
-				
+
 				return newCard;
 			});
-		
+
 		return hand.dropCard(...newCards);
 	}
-	
-	get(index) {
+
+	getCard(index: number): Card {
 		return this._cards
 			.find(card => _(card).index === parseInt(index));
 	}
-	
-	dropCard(...cards) {
+
+	dropCard(...cards): this {
 		if (
 			cards.map(card => (
 				card instanceof Card &&
 				this.canDrop(card)
 			)).includes(false)
 		) {
-			throw new Error(`This ${ this.constructor.className } cannot accept the given card${ cards.length > 1 ? 's' : '' }`);
+			throw new Error(`This ${ this.constructor.displayName } cannot accept the given card${ cards.length > 1 ? 's' : '' }`);
 		}
-		
+
 		this::_addCards(cards);
-		
+
 		return this;
 	}
-	
-	canDrop(card) {
-		return true;
+
+	canDrop(card: Card): boolean {
+		return !!card;
 	}
-	
-	shuffle() {
+
+	shuffle(): this {
 		const multiplier = Math.random() * this.length * 10;
 
 		this.sort(() => Math.random() * multiplier);
 
 		return this;
 	}
-	
-	unshuffle() {
+
+	unshuffle(): this {
 		this._cards
 			.forEach((card, i) => _(card).index = i);
 
 		return this;
 	}
-	
-	sort(...args) {
+
+	sort(...args): this {
 		const cards = this._cards.map(card => _(card));
 
 		sortBy(cards, ...args)

@@ -7,15 +7,34 @@ const SUITS = ['HEART','SPADE','CLUB','DIAMOND'];
 const RANKS = ['ACE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','TEN','JACK','QUEEN','KING'];
 
 export default class StandardDeck extends Deck {
+	get SUITS() {
+		return SUITS;
+	}
+	
+	get RANKS() {
+		return RANKS;
+	}
+	
+	get Card() {
+		return StandardCard;
+	}
+	
 	constructor(owner) {
+		super();
+
+		const {
+			SUITS,
+			RANKS,
+			Card,
+		} = this.constructor;
 		const cards = [];
 		
 		SUITS.forEach((suit) => {
 			RANKS.forEach((rank) => {
-				cards.push(new StandardCard(suit, rank, owner));
+				cards.push(new Card(suit, rank, owner));
 			});
 		});
 		
-		super(cards);
+		this._cards = cards;
 	}
 }

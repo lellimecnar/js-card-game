@@ -1805,6 +1805,11 @@ babel-messages@^6.23.0:
   dependencies:
     babel-runtime "^6.22.0"
 
+babel-plugin-class-display-name@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-class-display-name/-/babel-plugin-class-display-name-2.1.0.tgz#198ff12b9eabd33e011ee13f2f9898985608b4d1"
+  integrity sha1-GY/xK56r0z4BHuE/L5iYmFYItNE=
+
 babel-plugin-class-name@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-class-name/-/babel-plugin-class-name-1.1.0.tgz#24fd7053fde3da33799a685d197a6cca37a8b263"

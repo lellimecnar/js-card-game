@@ -5,13 +5,7 @@
   "author": "Lance Miller <dev@lance.pub>",
   "homepage": "https://card-game.io",
   "license": "ISC",
-  "main": "lib/card-game-deck-standard.dist.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "files": [
-    "lib/card-game-deck-standard.dist.js"
-  ],
+  "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },

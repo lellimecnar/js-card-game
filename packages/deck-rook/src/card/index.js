@@ -1,21 +1,7 @@
-import {
-	Card,
-} from '@card-game/core';
+import StandardCard from '@card-game/deck-standard/src/card';
 
-export default class RookCard extends Card {
-	get id() {
-		return [this.suit, this.rank].join(':');
-	}
-	
-	get suit() {
-		return _(this).suit;
-	}
-
-	get rank() {
-		return _(this).rank;
-	}
-
+export default class RookCard extends StandardCard {
 	constructor(suit, rank, owner) {
-		super({ suit, rank }, owner);
+		super(suit, rank, owner);
 	}
 }

@@ -11,7 +11,7 @@ function _addCards(...cards) {
 		cards.length > 0 &&
 		!Card.isCard(...cards)
 	) {
-		throw new Error(`Invalid card${ cards.length > 1 ? 's' : '' } added to ${ this.constructor.className }`, { cards });
+		throw new Error(`Invalid card${ cards.length > 1 ? 's' : '' } added to ${ this.constructor.displayName }`, { cards });
 	}
 	
 	cards.forEach((card) => {
@@ -29,10 +29,10 @@ export default class Deck {
 
 	set _cards(cards) {
 		if (_(this).hasCards) {
-			throw new Error(`This ${ this.constructor.className } already has cards.`);
+			throw new Error(`This ${ this.constructor.displayName } already has cards.`);
 		}
 		
-		this::_addCards(...cards);
+		this::_addCards(cards);
 	}
 	
 	get cards() {

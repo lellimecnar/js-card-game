@@ -2,10 +2,6 @@ const {
 	ProvidePlugin,
 } = require('webpack');
 const path = require('path');
-const {
-	paramCase,
-	pascalCase,
-} = require('change-case');
 
 const PKG_DIR = path.resolve(__dirname, './packages');
 
@@ -35,8 +31,9 @@ const config = {
 								'@babel/preset-flow',
 							],
 							plugins: [
-								'@babel/plugin-proposal-function-bind',
+								'class-display-name',
 								'@babel/plugin-proposal-logical-assignment-operators',
+								'@babel/plugin-proposal-function-bind',
 							],
 						},
 					},
@@ -52,7 +49,15 @@ const config = {
 };
 
 module.exports = [
-	[
+	...[
+		{
+			name: 'core',
+			library: 'CardGame',
+		},
+		{
+			name: 'deck-phase-10',
+			library: 'Phase10Deck',
+		},
 		{
 			name: 'deck-rook',
 			library: 'RookDeck',
@@ -61,7 +66,11 @@ module.exports = [
 			name: 'deck-standard',
 			library: 'StandardDeck',
 		},
-	].reduce((configs, { name, library }) => ({
+		{
+			name: 'deck-uno',
+			library: 'UNODeck',
+		},
+	].map(({ name, library }) => ({
 		...config,
 		name,
 		entry: [ path.resolve(PKG_DIR, name, 'src/index.js') ],
@@ -70,5 +79,5 @@ module.exports = [
 			filename: `card-game-${ name }.dist.js`,
 			library,
 		},
-	}), {}),
+	})),
 ];

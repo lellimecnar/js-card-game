@@ -5,13 +5,7 @@
   "author": "Lance Miller <dev@lance.pub>",
   "homepage": "https://card-game.io",
   "license": "ISC",
-  "main": "lib/card-game-deck-rook.dist.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "files": [
-    "lib/card-game-deck-rook.dist.js"
-  ],
+  "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -20,7 +14,8 @@
     "url": "git+https://github.com/lellimecnar/js-card-game.git"
   },
   "dependencies": {
-    "@card-game/core": "^0.0.1-alpha.2"
+    "@card-game/deck-standard": "^0.0.1-alpha.2"
   },
-  "gitHead": "729a5ff1f17590babec00a7b14505c387fff1d61"
+  "gitHead": "729a5ff1f17590babec00a7b14505c387fff1d61",
+  "devDependencies": {}
 }
