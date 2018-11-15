@@ -32,6 +32,7 @@ const config = {
 										useBuiltIns: 'entry',
 									},
 								],
+								'@babel/preset-flow',
 							],
 							plugins: [
 								'@babel/plugin-proposal-function-bind',
