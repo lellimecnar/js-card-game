@@ -5,23 +5,7 @@ import range from 'lodash/range';
 
 import UNOCard from '../card';
 
-const SUITS = ['RED','GREEN','BLUE','YELLOW'];
-const RANKS = ['ZERO','ONE','TWO','THREE','FOUR','FIVE','SIX','SEVEN','EIGHT','NINE','SKIP','DRAW_TWO','REVERSE'];
-const WILDS = ['WILD','DRAW_FOUR'];
-
 export default class UNODeck extends Deck {
-	static get SUITS() {
-		return SUITS;
-	}
-	
-	static get RANKS() {
-		return RANKS;
-	}
-	
-	static get WILDS() {
-		return WILDS;
-	}
-	
 	static get Card() {
 		return UNOCard;
 	}
@@ -30,29 +14,31 @@ export default class UNODeck extends Deck {
 		super();
 
 		const {
+			Card,
+		} = this.constructor;
+		const {
 			SUITS,
 			RANKS,
 			WILDS,
-			Card,
-		} = this.constructor;
+		} = Card;
 		const cards = [];
-		
-		SUITS.forEach((suit) => {
-			RANKS.forEach((rank) => {
-				const count = rank === 'ZERO' ? 1 : 2;
-				
+
+		[...SUITS].forEach((suit) => {
+			[...RANKS].forEach((rank) => {
+				const count = rank > RANKS.ZERO ? 2 : 1;
+
 				range(count).forEach(() => {
 					cards.push(new Card(suit, rank, owner));
-				})
+				});
 			});
 		});
-		
-		WILDS.forEach((rank) => {
+
+		[...WILDS].forEach((rank) => {
 			range(4).forEach(() => {
-				cards.push(new Card('WILD', rank, owner));
+				cards.push(new Card(WILDS.WILD, rank, owner));
 			});
 		});
-		
+
 		this._cards = cards;
 	}
 }

@@ -2,10 +2,12 @@ import compact from 'lodash/compact';
 import flattenDeep from 'lodash/flattenDeep';
 import range from 'lodash/range';
 import sortBy from 'lodash/sortBy';
+import EventClass from '../event-class';
+
 import Card from '../card';
 import Player from '../player';
 
-function _addCards(...cards) {
+function _addCards(...cards){
 	cards = compact(flattenDeep(cards));
 
 	if (
@@ -15,20 +17,54 @@ function _addCards(...cards) {
 		throw new Error(`Invalid card${ cards.length > 1 ? 's' : '' } added to ${ this.constructor.displayName }`, { cards });
 	}
 
+	cards = cards
+		.filter(card => _(card).cardSet !== this);
+
+	if (cards.length < 1) {
+		return;
+	}
+
 	const {
 		length,
 	} = this;
 
+	const oldCardSetCards = new Map();
+
 	cards.forEach((card, i) => {
+		const oldCardSet = _(card).cardSet;
+
 		_(card).cardSet = this;
 		_(card).index = length + i;
 		_(card).originalIndex = _(card).index;
 
 		_(this).hasCards ||= true;
+
+		if (
+			oldCardSet instanceof CardSet &&
+			oldCardSet !== this
+		) {
+			if (!oldCardSetCards.has(oldCardSet)) {
+				oldCardSetCards.set(oldCardSet, new Set());
+			}
+
+			oldCardSetCards.get(oldCardSet).add(card);
+
+			_(card).emit('removeCard', oldCardSet, this);
+		}
+
+		_(card).emit('dropCard', this, oldCardSet);
 	});
+
+	if (cards.length > 0) {
+		oldCardSetCards.forEach((oldCards, oldCardSet) => {
+			_(oldCardSet).emit('removeCard', [...oldCards]);
+		});
+
+		_(this).emit('dropCard', cards);
+	}
 }
 
-export default class CardSet {
+export default class CardSet extends EventClass {
 	get _cards(): Card[] {
 		return _(Card).cards
 			.filter(card => _(card).cardSet === this);
@@ -66,6 +102,8 @@ export default class CardSet {
 	}
 
 	constructor(cards?: Card[], owner: Player): CardSet {
+		super();
+
 		this._cards = cards;
 		_(this).owner = owner;
 	}

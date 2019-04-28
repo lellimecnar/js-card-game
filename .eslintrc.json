@@ -30,6 +30,9 @@
         ]
     },
     "globals": {
-        "_": true
+        "_": true,
+        "Enum": true,
+        "EventEmitter": true,
+        "on": true,
     }
 }

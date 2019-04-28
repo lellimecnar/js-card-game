@@ -3,10 +3,12 @@ const {
 } = require('webpack');
 const path = require('path');
 
-const PKG_DIR = path.resolve(__dirname, './packages');
+const ROOT_DIR = __dirname;
+const PKG_DIR = path.resolve(ROOT_DIR, './packages');
 
 const config = {
 	mode: 'development',
+	context: ROOT_DIR,
 	module: {
 		rules: [
 			{
@@ -17,24 +19,7 @@ const config = {
 						loader: 'babel-loader',
 						options: {
 							cacheDirectory: true,
-							babelrc: false,
-							presets: [
-								['@babel/preset-env',
-									{
-										targets: {
-											node: true,
-											browsers: 'defaults',
-										},
-										useBuiltIns: 'entry',
-									},
-								],
-								'@babel/preset-flow',
-							],
-							plugins: [
-								'class-display-name',
-								'@babel/plugin-proposal-logical-assignment-operators',
-								'@babel/plugin-proposal-function-bind',
-							],
+							compact: false,
 						},
 					},
 				],
@@ -44,6 +29,7 @@ const config = {
 	plugins: [
 		new ProvidePlugin({
 			'_': ['@card-game/core/src/util/privates', 'default'],
+			'Enum': ['enumify', 'Enum'],
 		}),
 	],
 };
@@ -69,6 +55,10 @@ module.exports = [
 		{
 			name: 'deck-uno',
 			library: 'UNODeck',
+		},
+		{
+			name: 'game-uno',
+			library: 'UNOGame',
 		},
 	].map(({ name, library }) => ({
 		...config,

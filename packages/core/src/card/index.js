@@ -1,13 +1,14 @@
 import compact from 'lodash/compact';
 import flattenDeep from 'lodash/flattenDeep';
 import Player from '../player';
+import EventClass from '../event-class';
 
 /**
  * @class Card
  * @arg { Object } data The metadata for the card
  * @arg { Player } owner The owner of the card
  */
-export default class Card {
+export default class Card extends EventClass {
 	static isCard(...cards: Card[]): boolean {
 		cards = compact(flattenDeep(cards));
 
@@ -19,7 +20,7 @@ export default class Card {
 
 	get id(): string {
 		if (_(this).suit && _(this).rank) {
-			return [_(this).suit, _(this).rank].join(':');
+			return [_(this).suit.name, _(this).rank.name].join(':');
 		}
 
 		return _(Card).cards.indexOf(this);
@@ -30,6 +31,8 @@ export default class Card {
 	}
 
 	constructor(data: Object, owner: Player) {
+		super();
+
 		_(this, data);
 		_(this).owner = owner;
 
